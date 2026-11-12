@@ -1,0 +1,41 @@
+/* V3.1 — original SVG geometry, compositor-only ambient motion. */
+body{background:#14234d}
+body:before{content:"";position:fixed;inset:0;max-width:500px;margin:auto;background:radial-gradient(ellipse at 50% 8%,#526fee 0,transparent 52%),linear-gradient(160deg,#244dcc,#242b91 75%,#1b255b);pointer-events:none}
+#app{background:transparent;z-index:1}
+#app:before{display:none}
+.ambient{position:fixed;inset:0;max-width:500px;margin:auto;overflow:hidden;pointer-events:none;z-index:0;contain:strict}
+.ambient svg{position:absolute;width:var(--size);height:var(--size);left:var(--x);top:var(--y);opacity:var(--alpha);color:#c2d6ff;animation:symbol-drift var(--speed) ease-in-out infinite alternate;animation-delay:var(--delay)}
+.ambient .near{filter:drop-shadow(0 0 5px #92baff55)}
+.ambient .halo{position:absolute;width:330px;height:330px;border-radius:50%;background:radial-gradient(circle,#9b87ff26,transparent 68%);left:20%;top:18%;animation:halo-drift 14s ease-in-out infinite alternate}
+@keyframes symbol-drift{from{transform:translate3d(-7px,-12px,0) rotate(-12deg)}to{transform:translate3d(12px,20px,0) rotate(28deg)}}
+@keyframes halo-drift{to{transform:translate3d(-70px,140px,0) scale(1.2);opacity:.45}}
+.homehero:before{inset:-75%;animation:light-turn 55s linear infinite;transform-origin:50% 57%}
+.hero-orbit{transform-origin:171px 94px;animation:light-turn 36s linear infinite}
+.hero-bot{animation:bot-float 4s ease-in-out infinite;transform-origin:center}
+.hero-bot-body{animation:bot-breathe 4s ease-in-out infinite;transform-origin:63px 140px}
+.hero-eye{transform-box:fill-box;transform-origin:center;animation:bot-blink 5.4s infinite}
+.hero-shadow{transform-origin:171px 171px;animation:shadow-breathe 4s ease-in-out infinite}
+.hero-spark{transform-box:fill-box;transform-origin:center;animation:spark-glow 3s ease-in-out infinite alternate}
+.hero-card{animation:card-float 5s ease-in-out infinite alternate}
+@keyframes light-turn{to{transform:rotate(360deg)}}
+@keyframes bot-float{50%{transform:translateY(-8px)}}
+@keyframes bot-breathe{50%{transform:scale(1.025,1.035)}}
+@keyframes bot-blink{0%,42%,46%,100%{transform:scaleY(1)}44%{transform:scaleY(.08)}}
+@keyframes shadow-breathe{50%{transform:scaleX(.85);opacity:.3}}
+@keyframes spark-glow{to{opacity:.3;transform:scale(.7)}}
+@keyframes card-float{to{transform:translateY(7px) rotate(3deg)}}
+button{transition:transform .14s ease,opacity .16s ease,background-color .16s ease}
+button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
+@media(hover:hover){button:not(:disabled):hover{transform:translateY(-2px)}}
+.seg.current{animation:signal-pulse 2s ease-in-out infinite}
+.avatar svg{animation:bot-float 4s ease-in-out infinite}
+.progressdots i,.slot,.parcel .check{transition:transform .18s,background-color .18s}
+.scorebar i{transform-origin:left;animation:score-reveal .7s cubic-bezier(.2,.8,.2,1) both}
+.grade-mark{animation:grade-pop .55s cubic-bezier(.2,1.5,.4,1) both}
+.toast,.modal{animation:enter .2s ease-out both}
+.modal-bg{animation:veil-in .15s ease-out both}
+@keyframes signal-pulse{50%{opacity:.6}}
+@keyframes score-reveal{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes grade-pop{from{opacity:0;transform:rotate(-10deg) scale(.5)}to{opacity:1;transform:rotate(6deg) scale(1)}}
+@keyframes veil-in{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
