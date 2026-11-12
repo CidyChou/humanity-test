@@ -100,10 +100,33 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 .methodology summary{font-size:13px;font-weight:700;cursor:pointer;padding:3px 0}
 .result-details{margin-top:4px}.result-details>summary{font-size:11px;color:#7684a5;cursor:pointer}
 .report-review summary{font-size:11px;font-weight:500;min-height:24px}
+.report-score{animation:load-impact .5s cubic-bezier(.2,1,.3,1) both}
+.parcel .check{animation:grade-pop .2s ease-out both}
 @media(max-width:360px){.hero-title{font-size:42px}.heroart{height:180px}.stage{padding:17px 13px!important}.stage h1{font-size:23px!important}.queue .slot{width:23px}}
 @media(max-height:740px) and (max-width:600px){.top{height:52px}.home{gap:13px}.heroart{height:155px}.homehero{padding:19px}.hero-title{font-size:41px;margin:12px 0}.stage{gap:11px!important;padding:16px 13px!important}.tools{margin-top:12px}.key{height:40px!important}}
 @keyframes signal-pulse{50%{opacity:.6}}
 @keyframes score-reveal{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes grade-pop{from{opacity:0;transform:rotate(-10deg) scale(.5)}to{opacity:1;transform:rotate(6deg) scale(1)}}
 @keyframes veil-in{from{opacity:0}to{opacity:1}}
+/* Short, local-only arcade interstitial; gameplay starts after it exits. */
+.loading-screen{position:fixed;inset:0;z-index:8;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 35%,#5144c9,#162867 75%);color:white;isolation:isolate}
+.loading-screen:before{content:"";position:absolute;inset:-60%;z-index:-1;background:repeating-conic-gradient(from 0deg,#ffffff08 0deg 12deg,transparent 12deg 30deg);animation:light-turn 25s linear infinite}
+.loading-screen:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-55deg,transparent 0 18px,#090e3722 18px 36px);opacity:.5;z-index:-1}
+.load-strike{position:absolute;inset:-20% -10%;background:#8d95ff;transform:skewY(-12deg);animation:strike-out .48s cubic-bezier(.7,0,.2,1) both;pointer-events:none}
+.load-strike.second{background:#ffce45;animation-duration:.34s}
+.load-content{width:min(100% - 64px,340px);text-align:center;animation:load-impact .46s cubic-bezier(.18,1.25,.3,1) both}
+.load-kicker{font:700 10px var(--mono);letter-spacing:3px;color:#bdcaff;margin-bottom:30px}
+.load-emblem{width:112px;height:112px;display:grid;place-items:center;margin:0 auto 26px;border:1px solid #b3c4ff77;border-radius:30px;background:linear-gradient(140deg,#9094ff33,#ffffff05);box-shadow:0 15px 40px #11184455;transform:rotate(-7deg)}
+.load-emblem svg{width:75px;height:75px;transform:rotate(7deg)}
+.load-emblem strong{font:900 63px var(--mono);letter-spacing:-5px;color:#ffda63;transform:rotate(7deg)}
+.load-content h1{font-size:31px;letter-spacing:-1px;line-height:1.3;margin:0 0 13px;font-weight:900}
+.load-caption{font-size:11px;letter-spacing:2px;color:#cdd6ff;min-height:17px}
+.load-track{height:9px;margin-top:38px;padding:2px;background:#0c184e;border:1px solid #768bdd77;border-radius:8px;overflow:hidden}
+.load-track i{display:block;height:100%;background:linear-gradient(90deg,#ffb737,#ffe58c);border-radius:4px;transform-origin:left;animation:load-progress 1.05s cubic-bezier(.2,.7,.3,1) both}
+.load-footer{display:flex;justify-content:space-between;margin-top:10px;font:600 9px var(--mono);letter-spacing:1px;color:#aabcec}
+.loading-screen.is-leaving{animation:load-exit .16s ease-in both;pointer-events:none}
+@keyframes strike-out{from{transform:translateY(0) skewY(-12deg)}to{transform:translateY(-140%) skewY(-12deg)}}
+@keyframes load-impact{from{opacity:0;transform:translateY(25px) scale(.7) rotate(-5deg)}to{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@keyframes load-progress{0%{transform:scaleX(.02)}40%{transform:scaleX(.6)}75%{transform:scaleX(.78)}100%{transform:scaleX(1)}}
+@keyframes load-exit{to{opacity:0;transform:scale(1.05)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
