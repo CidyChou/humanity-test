@@ -36,7 +36,7 @@ function runAIDemo(source='manual'){
  let index=0;
  function next(){
   if(state.current!==c||c.finished)return;
-  if(index===steps.length){c.aiTarget='';renderStage();later(()=>finishAssessment(source==='timeout'?'timeout':'submit',true),reduced?60:260);return}
+  if(index===steps.length){c.aiTarget='';renderStage();later(()=>finishAssessment(source==='timeout'?'timeout':'submit',true),reduced?60:(t.type==='robot'?750:260));return}
   const item=steps[index++];item.run();c.aiStep=index;c.aiTarget=item.selector;
   if(!reduced)tone();renderStage();later(next,interval);
  }

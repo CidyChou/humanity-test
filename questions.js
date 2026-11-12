@@ -30,9 +30,9 @@ const QuestionBank=(()=>{
       unique(()=>{const a=randomInt(28,59),b=randomInt(27,58);return [`${a} + ${b}`,a+b]}),
       unique(()=>{const b=randomInt(6,9),a=randomInt(10,14)*b;return [`${a} ÷ ${b}`,a/b]})];
   }else{
-   q=[unique(()=>{const a=randomInt(31,39),b=randomInt(21,26);return [`${a} × ${b}`,a*b]}),
-      unique(()=>{const a=randomInt(11,14)*12,b=randomInt(4,8)*6,c=randomInt(6,8);return [`(${a} − ${b}) × ${c}`,(a-b)*c]}),
-      unique(()=>{const b=randomInt(11,14),a=randomInt(60,76)*b,c=randomInt(16,23),d=randomInt(6,8);return [`${a} ÷ ${b} + ${c} × ${d}`,a/b+c*d]})];
+   q=[unique(()=>{const a=randomInt(21,29),b=randomInt(11,16);return [`${a} × ${b}`,a*b]}),
+      unique(()=>{const a=randomInt(9,12)*12,b=randomInt(2,6)*6,c=randomInt(3,5);return [`(${a} − ${b}) × ${c}`,(a-b)*c]}),
+      unique(()=>{const b=randomInt(6,9),a=randomInt(12,20)*b,c=randomInt(11,15),d=randomInt(3,5);return [`${a} ÷ ${b} + ${c} × ${d}`,a/b+c*d]})];
   }
   const [a,,b]=q[0][0].split(' ');
   return {questions:q,hint:`把 ${a} × ${b} 拆成整十数与个位数分别相乘。`};
@@ -40,8 +40,9 @@ const QuestionBank=(()=>{
  function memory(length){
   const seq=shuffle(Array.from({length:9},(_,i)=>i));
   if(length===6)return seq.slice(0,6);
-  // Original reverse task: nine distinct positions and one non-adjacent repeat.
-  const repeated=seq[randomInt(0,8)],slots=Array.from({length:10},(_,i)=>i).filter(i=>seq[i]!==repeated&&seq[i-1]!==repeated);
+  // Reverse task: length-1 distinct positions and one non-adjacent repeat.
+  seq.length=length-1;
+  const repeated=seq[randomInt(0,length-2)],slots=Array.from({length},(_,i)=>i).filter(i=>seq[i]!==repeated&&seq[i-1]!==repeated);
   seq.splice(slots[randomInt(0,slots.length-1)],0,repeated);return seq;
  }
  function turns(path){let n=0;for(let i=2;i<path.length;i++)if(path[i][0]-path[i-1][0]!==path[i-1][0]-path[i-2][0]||path[i][1]-path[i-1][1]!==path[i-1][1]-path[i-2][1])n++;return n}
@@ -94,7 +95,7 @@ const QuestionBank=(()=>{
  }
  function create(){
   const used=new Set();
-  const round={version:1,math:math(false,used),finalmath:math(true,used),memory:memory(6),finalmemory:memory(10),nav:map('nav'),robot:map('robot'),finalnav:map('final'),sort:sorting()};
+  const round={version:1,math:math(false,used),finalmath:math(true,used),memory:memory(6),finalmemory:memory(8),nav:map('nav'),robot:map('robot'),finalnav:map('final'),sort:sorting()};
   if(!validate(round))throw Error('题库校验失败');return round;
  }
  // Validation is also applied to localStorage data before restoring a round.
@@ -107,15 +108,15 @@ const QuestionBank=(()=>{
     for(const [i,q] of qs.entries()){
      if(!Array.isArray(q)||q.length!==2||typeof q[0]!=='string'||expressions.has(q[0]))return false;
      expressions.add(q[0]);let parts,result;
-     if(i===0){parts=q[0].match(/^(\d{2}) × (\d{1,2})$/);if(!parts)return false;const a=+parts[1],b=+parts[2];if(a<(hard?31:13)||a>(hard?39:19)||b<(hard?21:4)||b>(hard?26:8))return false;result=a*b}
+     if(i===0){parts=q[0].match(/^(\d{2}) × (\d{1,2})$/);if(!parts)return false;const a=+parts[1],b=+parts[2];if(a<(hard?21:13)||a>(hard?29:19)||b<(hard?11:4)||b>(hard?16:8))return false;result=a*b}
      else if(!hard&&i===1){parts=q[0].match(/^(\d{2}) \+ (\d{2})$/);if(!parts)return false;const a=+parts[1],b=+parts[2];if(a<28||a>59||b<27||b>58)return false;result=a+b}
      else if(!hard){parts=q[0].match(/^(\d{2,3}) ÷ ([6-9])$/);if(!parts||+parts[1]/+parts[2]<10||+parts[1]/+parts[2]>14)return false;result=+parts[1]/+parts[2]}
-     else if(i===1){parts=q[0].match(/^\((\d{3}) − (\d{2})\) × ([6-8])$/);if(!parts)return false;const a=+parts[1],b=+parts[2];if(a<132||a>168||a%12||b<24||b>48||b%6)return false;result=(a-b)*+parts[3]}
-     else{parts=q[0].match(/^(\d{3,4}) ÷ (1[1-4]) \+ (\d{2}) × ([6-8])$/);if(!parts)return false;const a=+parts[1]/+parts[2],b=+parts[3];if(a<60||a>76||!Number.isInteger(a)||b<16||b>23)return false;result=a+b*+parts[4]}
+     else if(i===1){parts=q[0].match(/^\((\d{3}) − (\d{2})\) × ([3-5])$/);if(!parts)return false;const a=+parts[1],b=+parts[2];if(a<108||a>144||a%12||b<12||b>36||b%6)return false;result=(a-b)*+parts[3]}
+     else{parts=q[0].match(/^(\d{2,3}) ÷ ([6-9]) \+ (\d{2}) × ([3-5])$/);if(!parts)return false;const a=+parts[1]/+parts[2],b=+parts[3];if(a<12||a>20||!Number.isInteger(a)||b<11||b>15)return false;result=a+b*+parts[4]}
      if(!Number.isInteger(result)||q[1]!==result)return false;
     }
    }
-   for(const [id,len,minUnique] of [['memory',6,6],['finalmemory',10,9]]){const s=round[id];if(!Array.isArray(s)||s.length!==len||s.some((v,i)=>!Number.isInteger(v)||v<0||v>8||(i&&v===s[i-1]))||new Set(s).size<minUnique)return false}
+   for(const [id,len,minUnique] of [['memory',6,6],['finalmemory',8,7]]){const s=round[id];if(!Array.isArray(s)||s.length!==len||s.some((v,i)=>!Number.isInteger(v)||v<0||v>8||(i&&v===s[i-1]))||new Set(s).size<minUnique)return false}
    for(const [id,w,h,len,walls] of [['nav',7,6,11,11],['robot',7,5,10,9],['finalnav',8,8,20,14]]){
     const m=round[id];if(m.w!==w||m.h!==h||m.path.length!==len+1||m.walls.length!==walls)return false;
     const cell=p=>Array.isArray(p)&&p.length===2&&p.every(Number.isInteger)&&p[0]>=0&&p[0]<w&&p[1]>=0&&p[1]<h;
