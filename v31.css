@@ -3,7 +3,7 @@ body{background:#14234d}
 body:before{content:"";position:fixed;inset:0;max-width:500px;margin:auto;background:radial-gradient(ellipse at 50% 8%,#526fee 0,transparent 52%),linear-gradient(160deg,#244dcc,#242b91 75%,#1b255b);pointer-events:none}
 #app{background:transparent;z-index:1}
 #app:before{display:none}
-.ambient{position:fixed;inset:0;max-width:500px;margin:auto;overflow:hidden;pointer-events:none;z-index:0;contain:strict}
+.ambient{position:fixed;inset:0;max-width:500px;margin:auto;overflow:hidden;pointer-events:none;z-index:0;contain:strict;transform:none}
 .ambient svg{position:absolute;width:var(--size);height:var(--size);left:var(--x);top:var(--y);opacity:var(--alpha);color:#c2d6ff;animation:symbol-drift var(--speed) ease-in-out infinite alternate;animation-delay:var(--delay)}
 .ambient .near{filter:drop-shadow(0 0 5px #92baff55)}
 .ambient-layer{inset:-3%;opacity:.65;animation-duration:32s}

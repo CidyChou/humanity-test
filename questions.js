@@ -31,7 +31,7 @@ const QuestionBank=(()=>{
       unique(()=>{const b=randomInt(6,9),a=randomInt(10,14)*b;return [`${a} ÷ ${b}`,a/b]})];
   }else{
    q=[unique(()=>{const a=randomInt(31,39),b=randomInt(21,26);return [`${a} × ${b}`,a*b]}),
-      unique(()=>{const a=randomInt(13,17)*12,b=randomInt(3,6)*6,c=randomInt(6,8);return [`(${a} − ${b}) × ${c}`,(a-b)*c]}),
+      unique(()=>{const a=randomInt(11,14)*12,b=randomInt(4,8)*6,c=randomInt(6,8);return [`(${a} − ${b}) × ${c}`,(a-b)*c]}),
       unique(()=>{const b=randomInt(11,14),a=randomInt(60,76)*b,c=randomInt(16,23),d=randomInt(6,8);return [`${a} ÷ ${b} + ${c} × ${d}`,a/b+c*d]})];
   }
   const [a,,b]=q[0][0].split(' ');
@@ -110,7 +110,7 @@ const QuestionBank=(()=>{
      if(i===0){parts=q[0].match(/^(\d{2}) × (\d{1,2})$/);if(!parts)return false;const a=+parts[1],b=+parts[2];if(a<(hard?31:13)||a>(hard?39:19)||b<(hard?21:4)||b>(hard?26:8))return false;result=a*b}
      else if(!hard&&i===1){parts=q[0].match(/^(\d{2}) \+ (\d{2})$/);if(!parts)return false;const a=+parts[1],b=+parts[2];if(a<28||a>59||b<27||b>58)return false;result=a+b}
      else if(!hard){parts=q[0].match(/^(\d{2,3}) ÷ ([6-9])$/);if(!parts||+parts[1]/+parts[2]<10||+parts[1]/+parts[2]>14)return false;result=+parts[1]/+parts[2]}
-     else if(i===1){parts=q[0].match(/^\((\d{3}) − (\d{2})\) × ([6-8])$/);if(!parts)return false;const a=+parts[1],b=+parts[2];if(a<156||a>204||a%12||b<18||b>36||b%6)return false;result=(a-b)*+parts[3]}
+     else if(i===1){parts=q[0].match(/^\((\d{3}) − (\d{2})\) × ([6-8])$/);if(!parts)return false;const a=+parts[1],b=+parts[2];if(a<132||a>168||a%12||b<24||b>48||b%6)return false;result=(a-b)*+parts[3]}
      else{parts=q[0].match(/^(\d{3,4}) ÷ (1[1-4]) \+ (\d{2}) × ([6-8])$/);if(!parts)return false;const a=+parts[1]/+parts[2],b=+parts[3];if(a<60||a>76||!Number.isInteger(a)||b<16||b>23)return false;result=a+b*+parts[4]}
      if(!Number.isInteger(result)||q[1]!==result)return false;
     }
