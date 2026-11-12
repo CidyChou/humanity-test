@@ -6,10 +6,14 @@ body:before{content:"";position:fixed;inset:0;max-width:500px;margin:auto;backgr
 .ambient{position:fixed;inset:0;max-width:500px;margin:auto;overflow:hidden;pointer-events:none;z-index:0;contain:strict}
 .ambient svg{position:absolute;width:var(--size);height:var(--size);left:var(--x);top:var(--y);opacity:var(--alpha);color:#c2d6ff;animation:symbol-drift var(--speed) ease-in-out infinite alternate;animation-delay:var(--delay)}
 .ambient .near{filter:drop-shadow(0 0 5px #92baff55)}
+.ambient-layer{inset:-3%;opacity:.65;animation-duration:32s}
+.ambient-layer.mid{opacity:.8;animation-duration:42s}
+.ambient-layer.near{opacity:1;animation-duration:26s;filter:none}
+body[data-screen="play"] .ambient-layer,body[data-screen="report"] .ambient-layer{opacity:.3}
 .ambient .halo{position:absolute;width:330px;height:330px;border-radius:50%;background:radial-gradient(circle,#9b87ff26,transparent 68%);left:20%;top:18%;animation:halo-drift 14s ease-in-out infinite alternate}
 @keyframes symbol-drift{from{transform:translate3d(-7px,-12px,0) rotate(-12deg)}to{transform:translate3d(12px,20px,0) rotate(28deg)}}
 @keyframes halo-drift{to{transform:translate3d(-70px,140px,0) scale(1.2);opacity:.45}}
-.homehero:before{inset:-75%;animation:light-turn 55s linear infinite;transform-origin:50% 57%}
+.homehero:before{inset:auto;width:650px;height:650px;left:50%;top:64%;margin:-325px;animation:light-turn 55s linear infinite;transform-origin:center}
 .hero-orbit{transform-origin:171px 94px;animation:light-turn 36s linear infinite}
 .hero-bot{animation:bot-float 4s ease-in-out infinite;transform-origin:center}
 .hero-bot-body{animation:bot-breathe 4s ease-in-out infinite;transform-origin:63px 140px}
