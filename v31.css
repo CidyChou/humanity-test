@@ -34,6 +34,74 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 .grade-mark{animation:grade-pop .55s cubic-bezier(.2,1.5,.4,1) both}
 .toast,.modal{animation:enter .2s ease-out both}
 .modal-bg{animation:veil-in .15s ease-out both}
+/* One shared spacing scale for the title, objective and play area. */
+.top{height:64px;margin-bottom:12px}
+.brand{font-size:14px;letter-spacing:.3px}
+.tag{font-size:9px;letter-spacing:.7px}
+.home{gap:18px}
+.homehero{padding:25px 23px 17px;border-width:1px;border-color:#a1aaff55;border-radius:24px;box-shadow:0 10px 36px #12195644}
+.hero-title{font-size:48px;line-height:1.08;letter-spacing:-2px;margin:17px 0 15px;-webkit-text-stroke:0;text-shadow:0 3px #20206566;transform:none}
+.hero-desc{font-size:12px;font-weight:500;letter-spacing:.2px}
+.heroart{height:206px;margin:10px 0 0}
+.home-bottom{gap:10px}
+.metric{border:1px solid #9caedf55;box-shadow:none;border-radius:14px;padding:13px 5px}
+.metric b{font:800 24px/1.1 var(--mono);letter-spacing:-1px}
+.metric small{font-size:10px;font-weight:600}
+.home-actions{gap:13px;padding-top:7px}
+.home-actions .btn.primary{min-height:58px;font-size:19px}
+.footer-note{font-size:10px;opacity:.8}
+.btn{border-width:1px;border-radius:12px;font-size:14px;min-height:46px;box-shadow:0 3px #14234d,inset 0 1px #ffffff55}
+.progressline{background:transparent;border:0;box-shadow:none;padding:0 2px!important;margin-bottom:18px!important;gap:12px}
+.progressline .number{font-size:11px;color:#dce5ff}
+.seg{height:5px;border:0;border-radius:5px;background:#ffffff25}
+.seg.current{box-shadow:none}
+.stage{padding:20px 17px 17px!important;gap:15px!important;border:1px solid #ffffff60;border-radius:20px;box-shadow:0 8px 28px #10194844}
+.stage h1{font-size:25px!important;letter-spacing:-.8px;margin:7px 0 0;line-height:1.25}
+.stage .eyebrow{font-size:9px;letter-spacing:1.3px;color:#7683a3}
+.stage .subtitle{font-size:12px;font-weight:500;line-height:1.5}
+.stage-head{align-items:center;gap:12px}
+.indexbadge{font:700 11px var(--mono);padding:7px;border:0;box-shadow:none;background:#e9edff;color:#5365a7}
+.indexbadge.offline{border:0;box-shadow:none;background:#fff0df;color:#aa642a}
+.task-instruction{margin:0!important;padding:0;background:none;border:0;border-radius:0}
+.assessment-strip{border:0;background:#eef1fc;color:#7180a3;padding:9px 11px;font-size:10px;border-radius:10px}
+.assessment-strip b{color:#3b54bb;font-size:20px}
+.assessment-strip b.urgent{color:#c64d54;animation:signal-pulse 1s ease-in-out infinite}
+.math-screen{padding:16px 8px!important;border:1px solid #c9d4ef;box-shadow:none;border-radius:13px}
+.answer{min-height:42px;border:0;box-shadow:none;font-size:29px}
+.keypad{gap:8px}
+.key{height:46px!important;border-width:1px;box-shadow:0 2px #c4ceea;font-size:21px}
+.key.submit{box-shadow:0 2px #27996a}
+.mini-status{font-size:11px;font-weight:600;min-height:16px}
+.mem{border-width:1px;box-shadow:0 2px #8ca0d6;aspect-ratio:1.35}
+.boardwrap{border:1px solid #b4c6e8;box-shadow:none;border-radius:12px}
+.stage .boardwrap:has(canvas[aria-label="导航地图"]){width:min(100%,300px)}
+.stage .boardwrap:has(canvas[aria-label="机器人编程棋盘"]){width:min(100%,300px)}
+.controls .dir{height:44px;width:60px;border-width:1px;box-shadow:0 2px #bbc8e8;font-size:22px}
+.queue{gap:5px}.queue .slot{width:25px;border-width:1px;height:28px}
+.stage .tool-row .btn{min-height:40px;font-size:11px}
+.queue-row small{font-size:10px;font-weight:500}
+.dense{gap:7px}.dense .parcel{min-height:55px;border-width:1px;box-shadow:0 2px #c5ceea;border-radius:10px}
+.rule{border:0;border-radius:6px;font-size:10px;padding:6px 8px}
+.tools{gap:10px;margin-top:17px}
+.dependency{background:none;border:0;padding:0 2px;gap:12px}
+.dependency span{font-size:10px;font-weight:500}.dependency b{font-size:10px}
+.dependency .meter{height:4px;background:#15235888;border:0}
+.tool-row .btn{min-height:43px;font-size:12px}
+.offlinebox{padding:6px;background:none;border:0;color:#ffd2a5;font-size:11px}
+.examiner{border:0;background:#e6edff;box-shadow:none;margin-bottom:12px;padding:9px!important;min-height:0!important}
+.examiner .avatar,.sayhead{display:none}.say p{font-size:12px;font-weight:500}
+.report-hero{border:1px solid #a1aaff66;padding:23px 18px;border-radius:22px}
+.report-heading h1{font-size:23px!important;text-shadow:none}
+.report-hero p{font-size:11px;line-height:1.5}.report-score{margin:22px 0 8px;-webkit-text-stroke:0;text-shadow:none}
+.report-list{border:1px solid #e2e7ff;box-shadow:none;padding:17px;border-radius:17px}
+.report-list h2{font-size:15px}.assessment-row{gap:8px;padding:14px 0}
+.assessment-row-top{font-size:12px}.scorebar{height:5px;border:0}
+.assessment-detail{font-size:11px}.assessment-meta{font-size:10px}
+.methodology summary{font-size:13px;font-weight:700;cursor:pointer;padding:3px 0}
+.result-details{margin-top:4px}.result-details>summary{font-size:11px;color:#7684a5;cursor:pointer}
+.report-review summary{font-size:11px;font-weight:500;min-height:24px}
+@media(max-width:360px){.hero-title{font-size:42px}.heroart{height:180px}.stage{padding:17px 13px!important}.stage h1{font-size:23px!important}.queue .slot{width:23px}}
+@media(max-height:740px) and (max-width:600px){.top{height:52px}.home{gap:13px}.heroart{height:155px}.homehero{padding:19px}.hero-title{font-size:41px;margin:12px 0}.stage{gap:11px!important;padding:16px 13px!important}.tools{margin-top:12px}.key{height:40px!important}}
 @keyframes signal-pulse{50%{opacity:.6}}
 @keyframes score-reveal{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes grade-pop{from{opacity:0;transform:rotate(-10deg) scale(.5)}to{opacity:1;transform:rotate(6deg) scale(1)}}
