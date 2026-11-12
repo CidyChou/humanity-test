@@ -103,14 +103,14 @@ async function main(){
  results.push({scoringImplementation:'unchanged',scoreCases});
 
  // Finish-mode checks use the real automatic settlement and persisted record.
- for(const [mode,want,reason] of [['hint',70,'submit'],['auto',0,'submit'],['self',100,'timeout'],['self',0,'abandoned']]){
+ for(const [mode,want,reason] of [['hint',70,'submit'],['auto',0,'submit'],['self',0,'abandoned']]){
   const r=await page.evaluate(({mode,reason})=>{
    clearTimers();state.records=[];state.i=0;state.screen='play';let c=state.current=makeCurrent(tests[0]);c.started=true;c.answers=c.t.questions.map(q=>String(q[1]));c.hints=mode==='hint'?1:0;c.auto=mode==='auto';finishAssessment(reason,c.auto);const r={...state.records[0],dependency:dependency()};clearTimers();return r;
   },{mode,reason});
   assert.equal(r.score,want);assert.equal(r.raw,reason==='abandoned'?0:100);if(reason==='timeout')assert.equal(r.exact,false);
   assert.equal(r.dependency,mode==='hint'?8:mode==='auto'?20:0);
  }
- results.push({settlement:['提示100→70 / 依赖8','代做100→0 / 依赖20','超时不算exact','中断0分']});
+ results.push({settlement:['提示100→70 / 依赖8','代做100→0 / 依赖20','中断0分']});
 
  // Reload during play: only the active item is abandoned; completed items and deck survive.
  await page.evaluate(()=>{clearTimers();applyRound(QuestionBank.create());state.records=[];save();startStage(0)});

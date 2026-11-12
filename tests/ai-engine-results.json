@@ -1,0 +1,46 @@
+{
+  "tests": "AI engine + report labels",
+  "browserAcceptance": false,
+  "results": [
+    {
+      "mode": "manual",
+      "reduced": false,
+      "stages": 8,
+      "score": 0,
+      "dependency": 100,
+      "playbackFrames": 114
+    },
+    {
+      "mode": "timeout",
+      "reduced": false,
+      "stages": 8,
+      "score": 0,
+      "dependency": 100,
+      "playbackFrames": 114
+    },
+    {
+      "mode": "manual",
+      "reduced": true,
+      "stages": 8,
+      "score": 0,
+      "dependency": 100,
+      "playbackFrames": 115
+    },
+    {
+      "mode": "timeout",
+      "reduced": true,
+      "stages": 8,
+      "score": 0,
+      "dependency": 100,
+      "playbackFrames": 114
+    },
+    {
+      "independentRun": "100/S"
+    }
+  ],
+  "reportBuckets": 6,
+  "partialTakeover": true,
+  "cancellation": true,
+  "pngAndShareLabel": true,
+  "legacyStorageKeys": true
+}

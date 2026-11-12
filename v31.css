@@ -62,7 +62,7 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 .stage{padding:20px 17px 17px!important;gap:15px!important;border:1px solid #ffffff60;border-radius:20px;box-shadow:0 8px 28px #10194844}
 .stage h1{font-size:25px!important;letter-spacing:-.8px;margin:7px 0 0;line-height:1.25}
 .stage .eyebrow{font-size:9px;letter-spacing:1.3px;color:#7683a3}
-.stage .subtitle{font-size:12px;font-weight:500;line-height:1.5}
+.stage .subtitle{font-size:15px;font-weight:650;line-height:1.55;color:#35446d}
 .stage-head{align-items:center;gap:12px}
 .indexbadge{font:700 11px var(--mono);padding:7px;border:0;box-shadow:none;background:#e9edff;color:#5365a7}
 .indexbadge.offline{border:0;box-shadow:none;background:#fff0df;color:#aa642a}
@@ -75,7 +75,7 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 .keypad{gap:8px}
 .key{height:46px!important;border-width:1px;box-shadow:0 2px #c4ceea;font-size:21px}
 .key.submit{box-shadow:0 2px #27996a}
-.mini-status{font-size:11px;font-weight:600;min-height:16px}
+.mini-status{font-size:12px;font-weight:650;min-height:18px;color:#52658d}
 .mem{border-width:1px;box-shadow:0 2px #8ca0d6;aspect-ratio:1.35}
 .boardwrap{border:1px solid #b4c6e8;box-shadow:none;border-radius:12px}
 .stage .boardwrap:has(canvas[aria-label="导航地图"]){width:min(100%,300px)}
@@ -83,9 +83,14 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 .controls .dir{height:44px;width:60px;border-width:1px;box-shadow:0 2px #bbc8e8;font-size:22px}
 .queue{gap:5px}.queue .slot{width:25px;border-width:1px;height:28px}
 .stage .tool-row .btn{min-height:40px;font-size:11px}
-.queue-row small{font-size:10px;font-weight:500}
+.queue-row small{font-size:12px;font-weight:600;color:#52658d}
 .dense{gap:7px}.dense .parcel{min-height:55px;border-width:1px;box-shadow:0 2px #c5ceea;border-radius:10px}
-.rule{border:0;border-radius:6px;font-size:10px;padding:6px 8px}
+.rules{display:grid;grid-template-columns:1.3fr .85fr 1fr;gap:6px;padding:11px 9px;background:#e8eeff;border:1px solid #c1ceef;border-radius:12px;position:relative}
+.rules:before{content:'同时满足';grid-column:1/-1;font-size:11px;font-weight:750;letter-spacing:1px;color:#4c5d86;margin-bottom:2px}
+.rule{display:flex;align-items:center;justify-content:center;gap:4px;background:#fff;border:1px solid #d1dbf5;border-radius:7px;font-size:16px;font-weight:800;line-height:1.3;padding:8px 4px;color:#24365e;white-space:nowrap}
+.rule .blue{flex:none;width:9px;height:9px;margin:0}
+.stage:has(.sortgrid){gap:12px!important}
+.stage:has(.sortgrid) .dense .parcel{min-height:51px}
 .tools{gap:10px;margin-top:17px}
 .dependency{background:none;border:0;padding:0 2px;gap:12px}
 .dependency span{font-size:10px;font-weight:500}.dependency b{font-size:10px}
@@ -105,6 +110,8 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 .result-details{margin-top:4px}.result-details>summary{font-size:11px;color:#7684a5;cursor:pointer}
 .report-review summary{font-size:11px;font-weight:500;min-height:24px}
 .report-score{animation:load-impact .5s cubic-bezier(.2,1,.3,1) both}
+.report-verdict{width:fit-content;max-width:100%;margin:13px 0 19px;padding:6px 0;font-size:clamp(34px,9.8vw,44px);line-height:1.2;font-weight:950;letter-spacing:-1.5px;color:#ffdf6b;text-shadow:0 3px #151c6655;transform:rotate(-3deg);transform-origin:40% 50%;animation:verdict-stamp .55s cubic-bezier(.15,1.4,.35,1) both}
+@keyframes verdict-stamp{0%{opacity:0;transform:scale(1.5) rotate(-12deg)}65%{opacity:1;transform:scale(.94) rotate(-2deg)}100%{opacity:1;transform:scale(1) rotate(-3deg)}}
 .parcel .check{animation:grade-pop .2s ease-out both}
 @media(max-width:360px){.hero-title{font-size:42px}.heroart{height:180px}.stage{padding:17px 13px!important}.stage h1{font-size:23px!important}.queue .slot{width:23px}}
 @media(max-height:740px) and (max-width:600px){.top{height:52px}.home{gap:13px}.heroart{height:155px}.homehero{padding:19px}.hero-title{font-size:41px;margin:12px 0}.stage{gap:11px!important;padding:16px 13px!important}.tools{margin-top:12px}.key{height:40px!important}}
@@ -133,4 +140,17 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 @keyframes load-impact{from{opacity:0;transform:translateY(25px) scale(.7) rotate(-5deg)}to{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
 @keyframes load-progress{0%{transform:scaleX(.02)}40%{transform:scaleX(.6)}75%{transform:scaleX(.78)}100%{transform:scaleX(1)}}
 @keyframes load-exit{to{opacity:0;transform:scale(1.05)}}
+/* AI uses the real board and controls; the scan and cursor never receive input. */
+.stage.ai-demo{border-color:#75eacb;box-shadow:0 0 0 2px #69eccb33,0 8px 28px #10194844;overflow:hidden}
+.ai-demo:after{content:'';position:absolute;left:0;right:0;top:-50px;height:50px;background:linear-gradient(transparent,#51deba22,transparent);animation:ai-scan 1.1s linear infinite;pointer-events:none}
+.ai-demo .assessment-strip{background:#d9f5ed;color:#236556}
+.ai-demo .assessment-strip b{font-size:16px;color:#18775f;min-width:50px}
+.ai-demo .key:disabled,.ai-demo .mem:disabled,.ai-demo .parcel:disabled,.ai-demo .dir:disabled{opacity:1}
+.ai-target{position:relative!important;box-shadow:0 0 0 3px #32caa5,0 0 18px #32caa550!important;opacity:1!important;z-index:1}
+.ai-demo .ai-pointer{position:absolute;left:auto;top:auto;width:15px;height:20px;right:10%;bottom:4%;background:#243f69;clip-path:polygon(0 0,0 86%,27% 66%,47% 100%,65% 91%,44% 58%,82% 58%);filter:drop-shadow(0 0 2px white);pointer-events:none;animation:ai-tap .14s ease-out both}
+.ai-demo .mem .ai-pointer{right:20%;bottom:20%}
+.ai-demo .boardwrap .ai-pointer{display:none}
+.ai-demo .mini-status{color:#356f64}
+@keyframes ai-scan{to{transform:translateY(850px)}}
+@keyframes ai-tap{from{transform:translate(6px,6px) scale(1.3)}to{transform:translate(0) scale(1)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
