@@ -108,7 +108,11 @@ const storageV2='humanity01-v2', activeKey=storageV2+'-active'; let tickTimer=nu
 let roundDeck=null,sortRule={color:'#679bbd',shape:'circle',parity:0,stamp:true};
 function applyRound(deck){
  roundDeck=deck;
- for(const i of [0,5])Object.assign(tests[i],deck[tests[i].id]);
+ for(const i of [0,5]){
+  tests[i].questions=deck[tests[i].id].questions.map(q=>[...q]);
+  const [a,,b]=tests[i].questions[0][0].split(' ');
+  tests[i].hint=`把 ${a} × ${b} 拆成整十数与个位数分别相乘。`;
+ }
  tests[1].seq=[...deck.memory];tests[6].seq=[...deck.finalmemory];
  maps.nav=deck.nav;maps.robot=deck.robot;maps.nav2=deck.finalnav;
  parcels.splice(0,parcels.length,...deck.sort.parcels);sortRule={...deck.sort.rule};

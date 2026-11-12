@@ -47,10 +47,12 @@ const QuestionBank=(()=>{
  function turns(path){let n=0;for(let i=2;i<path.length;i++)if(path[i][0]-path[i-1][0]!==path[i-1][0]-path[i-2][0]||path[i][1]-path[i-1][1]!==path[i-1][1]-path[i-2][1])n++;return n}
  function route(w,h,length){
   const start=[0,h-1],goal=[w-1,0],path=[start],seen=new Set([key(start)]);
+  const [minTurns,maxTurns]=length===20?[14,18]:h===5?[4,7]:[7,10];let visits=0;
   function visit(){
+   if(++visits>25000)return false;
    const p=path.at(-1),left=length-path.length+1,dist=Math.abs(goal[0]-p[0])+Math.abs(goal[1]-p[1]);
    if(dist>left||(left-dist)%2||(!left&&!same(p,goal)))return false;
-   if(!left)return turns(path)>=(length===20?12:5)&&turns(path)<=(length===20?18:9);
+   if(!left)return turns(path)>=minTurns&&turns(path)<=maxTurns;
    if(same(p,goal))return false;
    for(const [dx,dy] of shuffle(directions)){
     const n=[p[0]+dx,p[1]+dy];if(n[0]<0||n[0]>=w||n[1]<0||n[1]>=h||seen.has(key(n)))continue;
@@ -58,18 +60,22 @@ const QuestionBank=(()=>{
    }
    return false;
   }
-  if(!visit())throw Error('路线生成失败');
+  if(!visit())return null;
   const flipX=randomInt(0,1),flipY=randomInt(0,1);
   return path.map(([x,y])=>[flipX?w-1-x:x,flipY?h-1-y:y]);
  }
  function map(kind){
   const robot=kind==='robot',final=kind==='final',w=final?8:7,h=final?8:robot?5:6,length=final?20:robot?10:11;
-  const path=route(w,h,length),occupied=new Set(path.map(key));
+  for(let attempt=0;attempt<24;attempt++){
+  const path=route(w,h,length);if(!path)continue;const occupied=new Set(path.map(key));
   const cells=[];for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(!occupied.has(`${x},${y}`))cells.push([x,y]);
   const m={w,h,start:path[0],goal:path.at(-1),path,walls:shuffle(cells).slice(0,final?14:robot?9:11),land:[]};
   if(robot)m.battery=path[3];
   else if(!final){const open=shuffle(cells.filter(p=>free(m,p))).slice(0,4);m.land=[...open.map((p,i)=>[...p,i%2?'house':'tree']),[...m.goal,'house']]}
-  return m;
+  const optimal=shortest(m,m.start,m.goal);
+  if(optimal>=(final?14:length)&&optimal<=(final?18:length))return m;
+  }
+  throw Error('地图生成失败');
  }
  function matches(p,rule){return p.c===rule.color&&p.shape===rule.shape&&p.n%2===rule.parity&&p.stamp===rule.stamp}
  function sorting(){
@@ -109,12 +115,13 @@ const QuestionBank=(()=>{
      if(!Number.isInteger(result)||q[1]!==result)return false;
     }
    }
-   for(const [id,len,minUnique] of [['memory',6,6],['finalmemory',10,8]]){const s=round[id];if(!Array.isArray(s)||s.length!==len||s.some((v,i)=>!Number.isInteger(v)||v<0||v>8||(i&&v===s[i-1]))||new Set(s).size<minUnique)return false}
+   for(const [id,len,minUnique] of [['memory',6,6],['finalmemory',10,9]]){const s=round[id];if(!Array.isArray(s)||s.length!==len||s.some((v,i)=>!Number.isInteger(v)||v<0||v>8||(i&&v===s[i-1]))||new Set(s).size<minUnique)return false}
    for(const [id,w,h,len,walls] of [['nav',7,6,11,11],['robot',7,5,10,9],['finalnav',8,8,20,14]]){
     const m=round[id];if(m.w!==w||m.h!==h||m.path.length!==len+1||m.walls.length!==walls)return false;
     const cell=p=>Array.isArray(p)&&p.length===2&&p.every(Number.isInteger)&&p[0]>=0&&p[0]<w&&p[1]>=0&&p[1]<h;
     if(!m.walls.every(cell)||new Set(m.walls.map(key)).size!==walls||!m.path.every(cell)||new Set(m.path.map(key)).size!==len+1||!same(m.path[0],m.start)||!same(m.path.at(-1),m.goal))return false;
     if(m.path.some((p,i)=>!free(m,p)||(i&&Math.abs(p[0]-m.path[i-1][0])+Math.abs(p[1]-m.path[i-1][1])!==1)))return false;
+    const [minTurns,maxTurns]=id==='finalnav'?[14,18]:id==='robot'?[4,7]:[7,10];if(turns(m.path)<minTurns||turns(m.path)>maxTurns)return false;
     const optimal=shortest(m,m.start,m.goal);if(optimal<(id==='finalnav'?14:len)||optimal>(id==='finalnav'?18:len))return false;
     if(id==='robot'&&(!cell(m.battery)||!same(m.battery,m.path[3])||shortest(m,m.start,m.battery)+shortest(m,m.battery,m.goal)!==10))return false;
     if(!Array.isArray(m.land)||m.land.some(p=>!Array.isArray(p)||p.length!==3||!cell(p.slice(0,2))||!free(m,p)||!['tree','house'].includes(p[2])))return false;
