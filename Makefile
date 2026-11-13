@@ -11,7 +11,7 @@ PORT ?= 8765
 .PHONY: help dev sg
 
 help: ## 显示全部 Make 命令和说明
-	@echo "HUMAN/01 人类退化测试"
+	@echo "HUMAN/01 人类还有希望吗"
 	@echo "用法：make <命令>"
 	@awk 'BEGIN { FS = ":.*##" } /^[a-zA-Z0-9_-]+:.*##/ { printf "  %-14s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
