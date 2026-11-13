@@ -43,14 +43,14 @@ const DIRS=[['↑',0,-1],['←',-1,0],['↓',0,1],['→',1,0]];
 const maps={nav:{w:6,h:5,start:[0,4],goal:[5,0],walls:[[0,0],[0,1],[1,0],[2,0],[2,3],[3,3],[4,2],[4,3],[5,3]],path:[[0,4],[0,3],[1,3],[1,2],[2,2],[3,2],[3,1],[4,1],[5,1],[5,0]],land:[[3,0,'tree'],[4,0,'house'],[5,0,'house'],[0,2,'tree'],[1,4,'tree'],[3,4,'house'],[5,4,'tree']]},nav2:{w:6,h:5,start:[5,4],goal:[0,1],walls:[[0,4],[1,4],[1,3],[3,3],[4,1],[5,1],[2,0],[3,0]],path:[[5,4],[4,4],[3,4],[2,4],[2,3],[2,2],[1,2],[0,2],[0,1]],land:[[0,0,'tree'],[0,1,'house'],[1,0,'house'],[4,0,'tree'],[5,0,'house'],[4,3,'tree'],[0,3,'tree']]},robot:{w:5,h:4,start:[0,3],goal:[4,0],walls:[[1,3],[0,1],[3,1],[3,2],[4,3]],battery:[2,2],path:[[0,3],[0,2],[1,2],[2,2],[2,1],[2,0],[3,0],[4,0]]}};
 const parcels=[{c:'#679bbd',shape:'circle',n:8,stamp:true},{c:'#d89a68',shape:'circle',n:4,stamp:true},{c:'#679bbd',shape:'square',n:6,stamp:true},{c:'#679bbd',shape:'circle',n:3,stamp:true},{c:'#679bbd',shape:'circle',n:2,stamp:false},{c:'#679bbd',shape:'circle',n:6,stamp:true},{c:'#83aa77',shape:'triangle',n:2,stamp:true},{c:'#679bbd',shape:'circle',n:4,stamp:true},{c:'#d89a68',shape:'square',n:9,stamp:false}];
 const tests=[
-{id:'math',type:'math',name:'离开计算器',en:'MENTAL MATH',sub:'不用计算器，完成一次心算。',say:'你上一次在没有计算器的情况下，进行计算是什么时候？',eq:'17 × 6',answer:'102',hint:'17 × 6 可以拆成 10 × 6 和 7 × 6。',finish:'计算结果正确。看来你仍然记得如何使用自己的大脑。',auto:'已计算：102。用时 0.001 秒。你知道答案如何得到吗？'},
-{id:'memory',type:'memory',name:'短时记忆',en:'MEMORY TRACE',sub:'记住闪烁顺序，然后按顺序点亮。',say:'我可以记住数十亿条数据。现在，试试你的记忆。',seq:[1,5,7,3],finish:'记忆序列正确。你的记忆系统仍在运行。',auto:'序列已存入外部记忆并完成。你不需要记住任何东西。'},
-{id:'nav',type:'nav',name:'没有导航的一天',en:'MANUAL NAVIGATION',sub:'记住回家路线。导航关闭后，找到家。',say:'导航即将关闭。请依靠你自己的方向感回家。',map:'nav',finish:'已抵达目的地。没有导航，你依然可以找到方向。',auto:'自动驾驶已完成。你到家了，但你还记得路吗？'},
-{id:'robot',type:'robot',name:'不靠 AI 写代码',en:'LOGIC / CODE',sub:'编排指令，先取电池，再让机器人到达出口。',say:'我能一瞬间写完程序。不过这次，你来指挥机器人。',map:'robot',finish:'程序运行成功。你不仅得到了结果，还定义了过程。',auto:'代码已生成并执行。问题解决，但你理解这段程序吗？'},
-{id:'sort',type:'sort',name:'信息过载',en:'INFORMATION FILTER',sub:'按三条规则筛选有效数据包，选中后提交。',say:'推荐算法已关闭。请你自己判断哪些信息是有效的。',finish:'筛选正确。你没有把判断权交给推荐算法。',auto:'数据已经自动筛选。推荐系统为你决定了全部结果。'},
-{id:'finalmath',type:'math',name:'紧急供电',en:'BLACKOUT / 01',sub:'AI 已离线。输入正确的备用电源编号。',say:'警告：主系统断开连接。请手动完成备用电源计算。',eq:'96 ÷ 8',answer:'12',offline:true,finish:'备用电源已启动。还有两项系统等待重启。'},
-{id:'finalmemory',type:'memory',name:'恢复记忆模块',en:'BLACKOUT / 02',sub:'手动复现新的启动序列。',say:'备用电源正常。请独立复现控制台的启动序列。',seq:[8,2,4,0,6],offline:true,finish:'记忆模块已恢复。最后一步：连接通讯节点。'},
-{id:'finalnav',type:'nav',name:'重新连接世界',en:'BLACKOUT / 03',sub:'记住路线，独立抵达最后的通讯节点。',say:'通讯中断。请依靠地图和记忆，手动连接中继站。',map:'nav2',offline:true,finish:'通讯系统已恢复。你完成了全部手动重启任务。'}];
+{id:'math',type:'math',name:'离开计算器',en:'MENTAL MATH',sub:'点数字键输入答案，点 ✓ 提交；⌫ 可删除。共 3 题。',say:'你上一次在没有计算器的情况下，进行计算是什么时候？',eq:'17 × 6',answer:'102',hint:'17 × 6 可以拆成 10 × 6 和 7 × 6。',finish:'计算结果正确。看来你仍然记得如何使用自己的大脑。',auto:'已计算：102。用时 0.001 秒。你知道答案如何得到吗？'},
+{id:'memory',type:'memory',name:'短时记忆',en:'MEMORY TRACE',sub:'先看格子闪烁，再按原顺序点选。完成后点提交。',say:'我可以记住数十亿条数据。现在，试试你的记忆。',seq:[1,5,7,3],finish:'记忆序列正确。你的记忆系统仍在运行。',auto:'序列已存入外部记忆并完成。你不需要记住任何东西。'},
+{id:'nav',type:'nav',name:'没有导航的一天',en:'MANUAL NAVIGATION',sub:'先看路线，消失后点方向键沿原路回家。',say:'导航即将关闭。请依靠你自己的方向感回家。',map:'nav',finish:'已抵达目的地。没有导航，你依然可以找到方向。',auto:'自动驾驶已完成。你到家了，但你还记得路吗？'},
+{id:'robot',type:'robot',name:'不靠 AI 写代码',en:'LOGIC / CODE',sub:'点方向键编排路线，先取电池再到出口。排好后点提交并执行。',say:'我能一瞬间写完程序。不过这次，你来指挥机器人。',map:'robot',finish:'程序运行成功。你不仅得到了结果，还定义了过程。',auto:'代码已生成并执行。问题解决，但你理解这段程序吗？'},
+{id:'sort',type:'sort',name:'信息过载',en:'INFORMATION FILTER',sub:'点选符合全部条件的数据包，再点提交。再点一次可取消。',say:'推荐算法已关闭。请你自己判断哪些信息是有效的。',finish:'筛选正确。你没有把判断权交给推荐算法。',auto:'数据已经自动筛选。推荐系统为你决定了全部结果。'},
+{id:'finalmath',type:'math',name:'紧急供电',en:'BLACKOUT / 01',sub:'点数字键输入心算答案，点 ✓ 逐题提交；⌫ 可删除。',say:'警告：主系统断开连接。请手动完成备用电源计算。',eq:'96 ÷ 8',answer:'12',offline:true,finish:'备用电源已启动。还有两项系统等待重启。'},
+{id:'finalmemory',type:'memory',name:'恢复记忆模块',en:'BLACKOUT / 02',sub:'先看格子闪烁，再按相反顺序点选。完成后点提交。',say:'备用电源正常。请独立复现控制台的启动序列。',seq:[8,2,4,0,6],offline:true,finish:'记忆模块已恢复。最后一步：连接通讯节点。'},
+{id:'finalnav',type:'nav',name:'重新连接世界',en:'BLACKOUT / 03',sub:'先记住 20 步路线，消失后点方向键沿原路抵达节点。',say:'通讯中断。请依靠地图和记忆，手动连接中继站。',map:'nav2',offline:true,finish:'通讯系统已恢复。你完成了全部手动重启任务。'}];
 let state={screen:'home',i:0,records:[],current:null,sound:true};let runId=0,timers=[],audio=null,toastTimer=null;
 function later(fn,ms){let id=runId;let t=setTimeout(()=>{if(id===runId)fn()},ms);timers.push(t);return t}
 function tone(ok=true){if(!state.sound)return;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();let o=audio.createOscillator(),g=audio.createGain();o.type='sine';o.frequency.setValueAtTime(ok?480:180,audio.currentTime);o.frequency.exponentialRampToValueAtTime(ok?690:125,audio.currentTime+.10);g.gain.setValueAtTime(.07,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.16);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+.17)}catch{}}
@@ -109,33 +109,22 @@ function modal(title,text,confirm){let el=document.createElement('div');el.class
 function newGame(){clearActive();applyRound(QuestionBank.create());state.records=[];reportLabel=null;save();startStage(0)}
 /* HUMAN/01 assessment engine v2: deterministic game rubric, not clinical norms. */
 const protocol='H01-P02', weights=[8,10,12,12,13,13,12,20];
-Object.assign(tests[0],{questions:[['17 × 6',102],['38 + 47',85],['84 ÷ 7',12]],limit:30,level:'01 / 入门',sub:'3 道心算，每题只提交一次；答对得分，超时未答计 0。'});
-Object.assign(tests[1],{seq:[1,5,7,3,8,0],limit:25,flash:650,level:'02 / 基础',sub:'观察 6 格闪烁序列。按原顺序输入，逐位置评分，不反馈正误。'});
+Object.assign(tests[0],{questions:[['17 × 6',102],['38 + 47',85],['84 ÷ 7',12]],limit:30,level:'01 / 入门',scoringNote:'3 道心算，每题只提交一次；答对得分，超时未答计 0。'});
+Object.assign(tests[1],{seq:[1,5,7,3,8,0],limit:25,flash:650,level:'02 / 基础',scoringNote:'观察 6 格闪烁序列。按原顺序输入，逐位置评分，不反馈正误。'});
 const pathA=[[0,5],[0,4],[1,4],[1,3],[2,3],[2,2],[3,2],[4,2],[4,1],[5,1],[5,0],[6,0]];
 maps.nav={w:7,h:6,start:pathA[0],goal:pathA.at(-1),path:pathA,walls:[[0,0],[0,1],[1,0],[3,0],[3,3],[4,3],[4,5],[5,3],[6,2],[6,4],[2,5]],land:[[1,1,'tree'],[3,4,'house'],[5,5,'tree'],[6,0,'house'],[0,2,'tree']]};
-Object.assign(tests[2],{limit:45,preview:5,level:'03 / 进阶',sub:'记住指定路线的每一步，而不只是终点。路线消失后按原路线行走，到家自动结算。偏离、漏走、撞墙都会扣分。'});
+Object.assign(tests[2],{limit:45,preview:5,level:'03 / 进阶',scoringNote:'记住指定路线的每一步，而不只是终点。路线消失后按原路线行走，到家自动结算。偏离、漏走、撞墙都会扣分。'});
 const robotPath=[[0,4],[0,3],[1,3],[2,3],[2,2],[2,1],[3,1],[4,1],[4,0],[5,0],[6,0]];
 maps.robot={w:7,h:5,start:robotPath[0],goal:robotPath.at(-1),battery:[2,3],walls:[[0,1],[1,4],[1,2],[3,3],[3,2],[4,2],[5,1],[6,2],[4,4]],path:robotPath};
-Object.assign(tests[3],{limit:65,maxQueue:14,level:'04 / 进阶',sub:'一次提交完整程序。机器人须收集电池后到达出口，指令越精简越好。撞墙或未到达也会获得相应部分分。'});
+Object.assign(tests[3],{limit:65,maxQueue:14,level:'04 / 进阶',scoringNote:'一次提交完整程序。机器人须收集电池后到达出口，指令越精简越好。撞墙或未到达也会获得相应部分分。'});
 const moreParcels=[{c:'#679bbd',shape:'circle',n:12,stamp:true},{c:'#d89a68',shape:'triangle',n:8,stamp:false},{c:'#83aa77',shape:'circle',n:6,stamp:true},{c:'#679bbd',shape:'circle',n:14,stamp:false},{c:'#679bbd',shape:'circle',n:10,stamp:true},{c:'#679bbd',shape:'square',n:12,stamp:true}];
 parcels.push(...moreParcels);
-Object.assign(tests[4],{limit:35,level:'05 / 高阶',sub:'15 个数据包。选择所有符合三条规则的目标，漏选与误选都会扣分。'});
-Object.assign(tests[5],{questions:[['37 × 24',888],['(144 − 36) × 7',756],['864 ÷ 12 + 19 × 7',205]],limit:45,level:'06 / 高阶',sub:'AI 已离线。3 道多步心算，仅有 45 秒。遵循标准运算顺序。'});
-Object.assign(tests[6],{seq:[8,2,4,0,6,1,7,2],limit:30,flash:480,reverse:true,level:'07 / 专家',sub:'记住 8 格闪烁序列，播放结束后必须按相反顺序输入。每个位置独立计分。'});
+Object.assign(tests[4],{limit:35,level:'05 / 高阶',scoringNote:'15 个数据包。选择所有符合三条规则的目标，漏选与误选都会扣分。'});
+Object.assign(tests[5],{questions:[['37 × 24',888],['(144 − 36) × 7',756],['864 ÷ 12 + 19 × 7',205]],limit:45,level:'06 / 高阶',scoringNote:'AI 已离线。3 道多步心算，仅有 45 秒。遵循标准运算顺序。'});
+Object.assign(tests[6],{seq:[8,2,4,0,6,1,7,2],limit:30,flash:480,reverse:true,level:'07 / 专家',scoringNote:'记住 8 格闪烁序列，播放结束后必须按相反顺序输入。每个位置独立计分。'});
 const finalPath=[[0,7],[1,7],[1,6],[2,6],[2,5],[3,5],[3,4],[2,4],[2,3],[3,3],[4,3],[4,2],[5,2],[5,3],[6,3],[6,2],[6,1],[5,1],[5,0],[6,0],[7,0]];
 maps.nav2={w:8,h:8,start:finalPath[0],goal:finalPath.at(-1),path:finalPath,walls:[[0,0],[0,2],[0,4],[2,0],[3,1],[1,3],[4,4],[4,6],[6,5],[7,4],[7,6],[3,7],[5,7],[7,2]],land:[]};
-Object.assign(tests[7],{limit:50,preview:5,level:'08 / 极限',sub:'5 秒记住 20 步指定路线，50 秒内准确复现。终点、路线与路径轨迹将隐藏；无提示、无重看。抵达节点自动结算；极限挑战要求零偏离、零碰撞。'});
-// Short how-to copy. Durations and H01-P02 remain unchanged.
-[
- '点数字键输入答案，点 ✓ 提交；⌫ 可删除。共 3 题。',
- '先看格子闪烁，再按原顺序点选。完成后点提交。',
- '先看路线，消失后点方向键沿原路回家。',
- '点方向键编排路线，先取电池再到出口。排好后点提交并执行。',
- '点选符合全部条件的数据包，再点提交。再点一次可取消。',
- '点数字键输入心算答案，点 ✓ 逐题提交；⌫ 可删除。',
- '先看格子闪烁，再按相反顺序点选。完成后点提交。',
- '先记住 20 步路线，消失后点方向键沿原路抵达节点。'
-].forEach((goal,i)=>tests[i].sub=goal);
+Object.assign(tests[7],{limit:50,preview:5,level:'08 / 极限',scoringNote:'5 秒记住 20 步指定路线，50 秒内准确复现。终点、路线与路径轨迹将隐藏；无提示、无重看。抵达节点自动结算；极限挑战要求零偏离、零碰撞。'});
 const storageV2='humanity01-v2', activeKey=storageV2+'-active'; let tickTimer=null;
 let roundDeck=null,sortRule={color:'#679bbd',shape:'circle',parity:0,stamp:true},reportLabel=null;
 function applyRound(deck){
