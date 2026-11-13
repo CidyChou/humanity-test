@@ -18,12 +18,26 @@
 @media(max-height:760px) and (max-width:600px){.top{height:58px;margin-bottom:9px}.home{gap:14px}.homehero{padding:20px 20px 14px}.hero-title{font-size:44px;margin:14px 0 10px}.heroart{height:170px}.hero-caption{padding-top:5px}.metric{padding:10px 3px}.home-actions .btn.primary{min-height:54px}.stage{padding:16px 14px;gap:12px}.stage h1{font-size:24px}.tools{margin-top:14px;gap:10px}.progressline{margin-bottom:14px}.key{height:41px}.memorygrid{gap:7px}.mem{aspect-ratio:1.4}}
 @media(max-width:360px){#app{padding-left:15px;padding-right:15px}.topright{gap:6px}.topright .tag{display:none}.hero-title{font-size:44px}.stage{padding:16px 13px}.stage h1{font-size:23px}.slot{width:24px}.rules{gap:4px}.rule{font-size:9px;padding:5px 7px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.transition-track i{transform:scaleX(1)}.transition.leaving{opacity:0}.hero-float,.hero-card{transform:none}.scorebar i{transform:none}}
-.grade-mark.long{width:auto;min-width:52px;padding:0 10px;font-size:24px;letter-spacing:-1px}</style>
-<link rel="stylesheet" href="v31.css">
+.grade-mark.long{width:auto;min-width:52px;padding:0 10px;font-size:24px;letter-spacing:-1px}
+/* Keep results readable even when an older external stylesheet is cached. */
+.settlement-screen{position:fixed;inset:0;z-index:9;display:grid;place-items:center;overflow:hidden;isolation:isolate;background:var(--interlude-yellow,#ffce45);color:#202d59;padding:calc(28px + env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left))}
+.settlement-band{position:absolute;inset:14% -20%;z-index:-1}
+.settlement-content{width:min(100%,380px);text-align:center}
+.settlement-kicker{font:750 11px var(--mono);letter-spacing:2px}
+.settlement-content h1{font-size:24px;letter-spacing:3px;margin:24px 0 8px}
+.settlement-name{font-size:14px;margin:0}
+.settlement-score{font:950 clamp(96px,28vw,144px)/1 var(--mono);letter-spacing:-7px;margin:26px 0 8px}
+.settlement-score.is-auto{font:900 clamp(38px,12vw,58px)/1.2 system-ui;letter-spacing:-1px;margin:40px 0 20px}
+.settlement-unit{font-size:12px;font-weight:650}
+.settlement-tag{font-size:clamp(24px,7vw,32px);font-weight:900;margin:24px 0 40px}
+.settlement-next{font-size:12px;font-weight:650;letter-spacing:1px}
+.settlement-next span{padding-left:8px}
+</style>
+<link rel="stylesheet" href="v31.css?v=202611131455">
 </head>
 <body><div class="ambient" aria-hidden="true"></div><main id="app"></main>
-<script src="questions.js"></script>
-<script src="ai-demo.js"></script>
+<script src="questions.js?v=202611131455"></script>
+<script src="ai-demo.js?v=202611131455"></script>
 <script>
 'use strict';
 const $=s=>document.querySelector(s), app=$('#app');
@@ -46,7 +60,7 @@ const tests=[
 {id:'math',type:'math',name:'离开计算器',en:'MENTAL MATH',sub:'点数字键输入答案，点 ✓ 提交；⌫ 可删除。共 3 题。',say:'你上一次在没有计算器的情况下，进行计算是什么时候？',eq:'17 × 6',answer:'102',hint:'17 × 6 可以拆成 10 × 6 和 7 × 6。',finish:'计算结果正确。看来你仍然记得如何使用自己的大脑。',auto:'已计算：102。用时 0.001 秒。你知道答案如何得到吗？'},
 {id:'memory',type:'memory',name:'短时记忆',en:'MEMORY TRACE',sub:'先看格子闪烁，再按原顺序点选。完成后点提交。',say:'我可以记住数十亿条数据。现在，试试你的记忆。',seq:[1,5,7,3],finish:'记忆序列正确。你的记忆系统仍在运行。',auto:'序列已存入外部记忆并完成。你不需要记住任何东西。'},
 {id:'nav',type:'nav',name:'没有导航的一天',en:'MANUAL NAVIGATION',sub:'先看路线，消失后点方向键沿原路回家。',say:'导航即将关闭。请依靠你自己的方向感回家。',map:'nav',finish:'已抵达目的地。没有导航，你依然可以找到方向。',auto:'自动驾驶已完成。你到家了，但你还记得路吗？'},
-{id:'robot',type:'robot',name:'不靠 AI 写代码',en:'LOGIC / CODE',sub:'点方向键编排路线，先取电池再到出口。排好后点提交并执行。',say:'我能一瞬间写完程序。不过这次，你来指挥机器人。',map:'robot',finish:'程序运行成功。你不仅得到了结果，还定义了过程。',auto:'代码已生成并执行。问题解决，但你理解这段程序吗？'},
+{id:'robot',type:'robot',name:'不靠 AI 写代码',en:'LOGIC / CODE',sub:'点方向键编排，取电池→出口，提交执行。',say:'我能一瞬间写完程序。不过这次，你来指挥机器人。',map:'robot',finish:'程序运行成功。你不仅得到了结果，还定义了过程。',auto:'代码已生成并执行。问题解决，但你理解这段程序吗？'},
 {id:'sort',type:'sort',name:'信息过载',en:'INFORMATION FILTER',sub:'点选符合全部条件的数据包，再点提交。再点一次可取消。',say:'推荐算法已关闭。请你自己判断哪些信息是有效的。',finish:'筛选正确。你没有把判断权交给推荐算法。',auto:'数据已经自动筛选。推荐系统为你决定了全部结果。'},
 {id:'finalmath',type:'math',name:'紧急供电',en:'BLACKOUT / 01',sub:'点数字键输入心算答案，点 ✓ 逐题提交；⌫ 可删除。',say:'警告：主系统断开连接。请手动完成备用电源计算。',eq:'96 ÷ 8',answer:'12',offline:true,finish:'备用电源已启动。还有两项系统等待重启。'},
 {id:'finalmemory',type:'memory',name:'恢复记忆模块',en:'BLACKOUT / 02',sub:'先看格子闪烁，再按相反顺序点选。完成后点提交。',say:'备用电源正常。请独立复现控制台的启动序列。',seq:[8,2,4,0,6],offline:true,finish:'记忆模块已恢复。最后一步：连接通讯节点。'},
@@ -210,10 +224,8 @@ function examiner(c){let t=c.t,r=state.records[state.i],msg=c.finished?(r.mode==
 function rubric(t){return {math:'正确题数 ÷ 总题数 × 100；未答为 0。',memory:'正确位置数 ÷ 序列长度 × 100；错位和未答均为 0。',nav:'路线 70 分（按编辑误差比例扣分）＋抵达 30 分；每次碰撞扣 5 分。',robot:'取电池 35 分、抵达 35 分；成功且无碰撞时指令效率最多 30 分；碰撞扣 10 分。',sort:'(正确选中数 − 误选数) ÷ 目标总数 × 100，最低 0 分。'}[t.type]}
 function renderStage(first=false){
  let c=state.current,t=c.t,preview=c.phase==='show'||c.phase==='preview';
- const phase=c.auto?(c.takeoverReason==='timeout'?'超时 · AI 接管':'AI 模拟作答'):preview?'观察':'作答';
- const status=c.auto?`${c.aiStep||0} / ${c.aiTotal||0}`:t.type==='memory'?(preview?'已观察 '+c.memIndex:'已输入 '+c.picks.length)+' / '+t.seq.length+' 格':t.type==='nav'?`${c.moves.length} / ${maps[t.map].path.length-1} 步`:t.type==='math'?`${c.answers.length} / ${t.questions.length} 已提交`:t.type==='robot'?(c.running?`已执行 ${c.executed} / ${c.queue.length}`:`已排 ${c.queue.length} / ${t.maxQueue}`):parcels.length+' 项';
  const time=c.auto?'接管中':c.phase==='preview'?'路线 · '+c.navRemaining+'s':preview?'先观察':c.running?'执行中':String(c.seconds).padStart(2,'0')+'s';
- app.innerHTML=headerMarkup()+progress()+(c.feedback?examiner(c):'')+`<section class="stage ${first?'fadein':''} ${c.auto?'ai-demo':''}" aria-busy="${c.auto}"><div class="stage-head"><div><div class="eyebrow">${t.en}</div><h1>${t.name}</h1></div><div class="stage-meta"><span class="indexbadge">${String(state.i+1).padStart(2,'0')}</span><b id="clock" aria-label="${c.phase==='preview'?'路线预览倒计时':'作答状态与剩余时间'}" class="${!c.auto&&!preview&&c.seconds<=10?'urgent':''}">${time}</b></div></div><p class="subtitle task-instruction">${t.sub}</p><div class="assessment-strip"><span>${phase}</span><span>${status}</span></div>${renderPlay(c)}</section>${renderTools(c)}`;
+ app.innerHTML=headerMarkup()+progress()+'<div class="play-area">'+(c.feedback?examiner(c):'')+`<section class="stage ${first?'fadein':''} ${c.auto?'ai-demo':''}" aria-busy="${c.auto}"><div class="stage-head"><div><div class="eyebrow">${t.en}</div><h1>${state.i+1}. ${t.name}</h1></div><div class="stage-meta"><b id="clock" aria-label="${c.phase==='preview'?'路线预览倒计时':'作答状态与剩余时间'}" class="${!c.auto&&!preview&&c.seconds<=10?'urgent':''}">${time}</b></div></div><p class="subtitle task-instruction ${t.type==='robot'?'is-compact':''}">${t.sub}</p>${renderPlay(c)}</section>${renderTools(c)}</div>`;
  if(t.type==='nav'||t.type==='robot')drawBoard(c);animateStage(c);paintAIDemo(c);
 }
 function reviewMarkup(c){let t=c.t;if(t.type==='math')return `<div class="review">${t.questions.map((q,i)=>`<div><span>${q[0]} = ${q[1]}</span><b class="${c.answers[i]===String(q[1])?'':'wrongtext'}">${c.answers[i]===String(q[1])?'✓':c.answers[i]||'未答'}</b></div>`).join('')}</div>`;if(t.type==='memory')return `<div class="review"><small>标准 / 你的答案（错位标红）</small><div class="sequence-review">${expectedMemory(c).map((v,i)=>`<span class="${c.picks[i]===v?'':'wrongtext'}">${v+1}<small>${c.picks[i]===undefined?'–':c.picks[i]+1}</small></span>`).join('')}</div></div>`;if(t.type==='nav')return `<div class="review"><small>标准路线</small><p class="route-review">${dirsFromPath(maps[t.map].path).join(' ')}</p><small>实际路线</small><p class="route-review">${c.moves.join(' ')||'未行走'}</p></div>`;return ''}

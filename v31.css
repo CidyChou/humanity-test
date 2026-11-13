@@ -69,13 +69,13 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 .stage-head{align-items:flex-start;gap:8px}
 .stage-head>div:first-child{min-width:0}
 .stage-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
-.stage-meta .indexbadge{padding:4px 7px;font-size:10px}
 .stage-meta #clock{font:750 18px/1.15 var(--mono);color:#3b54bb;white-space:nowrap;font-variant-numeric:tabular-nums}
 .stage-meta #clock.urgent{color:#c64d54;animation:signal-pulse 1s ease-in-out infinite}
 .ai-demo .stage-meta #clock{color:#18775f;font-size:16px}
 .indexbadge{font:700 11px var(--mono);padding:7px;border:0;box-shadow:none;background:#e9edff;color:#5365a7}
 .indexbadge.offline{border:0;box-shadow:none;background:#fff0df;color:#aa642a}
 .task-instruction{margin:0!important;padding:0;background:none;border:0;border-radius:0}
+.stage .task-instruction.is-compact{white-space:nowrap}
 .assessment-strip{border:0;background:#eef1fc;color:#7180a3;padding:6px 10px;font-size:11px;border-radius:8px}
 .assessment-strip b{color:#3b54bb;font-size:20px}
 .assessment-strip b.urgent{color:#c64d54;animation:signal-pulse 1s ease-in-out infinite}
@@ -146,7 +146,7 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 .load-footer{display:flex;justify-content:space-between;margin-top:10px;font:600 9px var(--mono);letter-spacing:1px;color:#aabcec}
 .loading-screen.is-leaving{animation:load-exit .16s ease-in both;pointer-events:none}
 /* The loading strike becomes a readable two-second result surface. */
-.settlement-screen{position:fixed;inset:0;z-index:9;display:grid;place-items:center;overflow:hidden;isolation:isolate;background:var(--interlude-yellow);color:#202d59;padding:calc(28px + env(safe-area-inset-top)) 24px calc(28px + env(safe-area-inset-bottom))}
+.settlement-screen{position:fixed;inset:0;z-index:9;display:grid;place-items:center;overflow:hidden;isolation:isolate;background:var(--interlude-yellow,#ffce45);color:#202d59;padding:calc(28px + env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left))}
 .settlement-screen:before{content:"";position:absolute;inset:-60%;z-index:-2;background:repeating-conic-gradient(from 0deg,#fff3b33b 0deg 12deg,transparent 12deg 30deg);animation:light-turn 25s linear infinite}
 .settlement-band{position:absolute;inset:14% -20%;z-index:-1;background:#fff0ac55;transform:skewY(-12deg);border-block:1px solid #fff2bb88}
 .settlement-content{width:min(100%,380px);text-align:center;animation:load-impact .35s cubic-bezier(.18,1.25,.3,1) both}
@@ -188,6 +188,10 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 
 /* Portrait play: reserve space for the board and comfortable tap targets. */
 @media(max-width:600px){
+ /* Auto margins share spare height; a tall play area keeps its natural height and scrolls. */
+ body[data-screen="play"] #app{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+ body[data-screen="play"] #app>.top,body[data-screen="play"] #app>.progressline{flex-shrink:0}
+ body[data-screen="play"] .play-area{flex-shrink:0;margin-block:auto;padding-block:12px}
  body[data-screen="play"] .top{height:52px;margin-bottom:6px}
  body[data-screen="play"] .progressline{margin-bottom:8px!important}
  .stage{padding:12px 13px!important;gap:8px!important}

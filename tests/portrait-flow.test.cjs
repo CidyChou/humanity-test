@@ -51,6 +51,7 @@ for(const reduced of [false,true]){
    h.run('state.current.deadline=Date.now()+100');h.advance(100);
   }
   assert.equal(h.run('state.current.auto'),true);
+  assert.doesNotMatch(h.app.markup,/assessment-strip/);
   assert.equal(h.run('state.records.length'),0);
   h.until(()=>h.run("state.screen==='settlement'"));
   assert.equal(h.run(`state.records[${i}].mode`),'auto');
@@ -81,7 +82,16 @@ for(const reduced of [false,true]){
   assert.equal(h.run('state.screen'),'home');
  }
 }
-// Preview and answer countdowns share the top-right slot. Moves live in the info strip.
+// Every title starts with its unpadded number; the top-right slot only holds the clock.
+for(let i=0;i<8;i++){
+ const h=harness();h.setup(i);
+ assert.ok(h.app.markup.includes(`<h1>${i+1}. ${h.run('state.current.t.name')}</h1>`));
+ assert.match(h.app.markup,/<div class="stage-meta"><b id="clock"[^>]*>[^<]*<\/b><\/div>/);
+ assert.match(h.app.markup,/<div class="play-area">/);
+ assert.doesNotMatch(h.app.markup,/assessment-strip/);
+ if(i===3)assert.match(h.app.markup,/<p class="subtitle task-instruction is-compact">点方向键编排，取电池→出口，提交执行。<\/p>/);
+}
+// Preview and answer countdowns share the top-right slot. Moves remain part of scoring state.
 for(const i of [2,7]){
  const h=harness();h.setup(i);
  assert.match(h.app.markup,/stage-meta[\s\S]*?id="clock"[\s\S]*?路线 · 5s/);
@@ -93,7 +103,8 @@ for(const i of [2,7]){
  if(i===7)assert.equal(h.canvas.height,966); // 8×8 cells retain a square canvas.
  h.resize(410);h.run('drawBoard(state.current)');assert.equal(h.canvas.width,1230);
  h.run('navMove(dirsFromPath(maps[state.current.t.map].path)[0])');
- assert.match(h.app.markup,new RegExp(`assessment-strip[\\s\\S]*?1 / ${i===7?20:11} 步`));
+ assert.equal(h.run('state.current.moves.length'),1);
+ assert.doesNotMatch(h.app.markup,/assessment-strip/);
 }
 // All-independent play still yields 100/S++ and zero AI dependency after all 8 results.
 {
@@ -105,4 +116,4 @@ for(const i of [2,7]){
  }
  h.until(()=>h.run("state.screen==='report'"));assert.equal(h.run('reportStats().score'),100);assert.equal(h.run('reportStats().grade'),'S++');assert.equal(h.run('dependency()'),0);
 }
-console.log('通过：结算时序/提示折分/32 路 AI 接管/机器人执行/中断取消/顶部计时步数/高清画布/独立全流程 100 分（Node，无浏览器）');
+console.log('通过：结算时序/提示折分/32 路 AI 接管/机器人执行/中断取消/标题计时/无进度行/单行机器人说明/高清画布/独立全流程 100 分（Node，无浏览器）');

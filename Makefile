@@ -22,12 +22,22 @@ sg: ## 部署静态页面到新加坡（https://h5.cidychou.com/humanity-test/�
 	@set -eu; \
 	work=$$(mktemp -d); \
 	trap 'rm -rf "$$work"' EXIT; \
+	version=$$(date +%Y%m%d%H%M%S); \
+	cp index.html "$$work/index.html.original"; \
 	mkdir "$$work/site"; \
 	tar --exclude=.git --exclude=Makefile --exclude=README.md --exclude=start.sh \
 	    --exclude=.gitignore --exclude='*-shots' --exclude=node_modules --exclude=tests \
+	    --exclude=.task-refs --exclude=TASK_OUTPUT.md --exclude=.agents --exclude=.codex --exclude=.aws \
 	    -cf - . | tar -xf - -C "$$work/site"; \
 	find "$$work/site" \( -name '.DS_Store' -o -name '._*' -o -name '*.map' \) -delete; \
 	test -s "$$work/site/index.html"; \
+	sed -E "s@(href|src)=\"(v31\\.css|questions\\.js|ai-demo\\.js)(\\?v=[^\"]*)?\"@\1=\"\2?v=$$version\"@g" \
+	    "$$work/site/index.html" > "$$work/index.html.versioned"; \
+	mv "$$work/index.html.versioned" "$$work/site/index.html"; \
+	for asset in v31.css questions.js ai-demo.js; do \
+	    grep -Fq "$$asset?v=$$version\"" "$$work/site/index.html"; \
+	done; \
+	cmp -s index.html "$$work/index.html.original"; \
 	COPYFILE_DISABLE=1 tar -czf "$$work/site.tar.gz" -C "$$work/site" .; \
 	$(SG_SSH) -T "$(SG_HOST)" 'set -eu; \
 		sudo -n mkdir -p "$(SG_RELEASES)"; \
