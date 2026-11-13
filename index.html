@@ -111,10 +111,24 @@ if(canvas.width!==pixelWidth||canvas.height!==pixelHeight){canvas.width=pixelWid
 ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);ctx.setTransform(canvas.width/W,0,0,canvas.height/H,0,0);let size=Math.min((W-26)/m.w,(H-26)/m.h),ox=(W-size*m.w)/2,oy=(H-size*m.h)/2;let center=p=>[ox+(p[0]+.5)*size,oy+(p[1]+.5)*size];let rr=(x,y,w,h,r,fill,stroke)=>{ctx.beginPath();ctx.roundRect(x,y,w,h,r);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1.7;ctx.stroke()}};let line=(a,b,color,width=2,dash=[])=>{ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap='round';ctx.setLineDash(dash);ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();ctx.setLineDash([])};let circle=(x,y,r,fill,stroke)=>{ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke()}};let txt=(s,x,y,color,sz=9,weight='700')=>{ctx.fillStyle=color;ctx.font=`${weight} ${sz}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(s,x,y)};
 ctx.fillStyle='#a7c8f3';ctx.fillRect(0,0,W,H);for(let y=0;y<m.h;y++)for(let x=0;x<m.w;x++){let px=ox+x*size+2,py=oy+y*size+2,wall=m.walls.some(p=>eq(p,[x,y]));rr(px,py,size-4,size-4,7,wall?'#647fbc':'#e9f0ff',wall?'#385388':'#b2c8ed');if(wall){rr(px+5,py+4,size-14,size-14,5,'#91a8db');line([px+9,py+size-12],[px+size-13,py+size-12],'#46649f',2)}}
 if(c.trail&&c.trail.length&&(c.t.id!=='finalnav'||c.finished||c.auto)){let pts=[...c.trail,c.pos];for(let i=1;i<pts.length;i++)line(center(pts[i-1]),center(pts[i]),'#86a7e5',3)}
-if(c.t.type==='nav'){for(let [x,y,type] of m.land){let [cx,cy]=center([x,y]);if(type==='tree'){rr(cx-3,cy+4,6,12,2,'#865439');circle(cx,cy-3,10,'#42b984');circle(cx-5,cy+3,6,'#74dda0');circle(cx+6,cy+3,6,'#2c9e77')}else{rr(cx-13,cy-2,26,20,3,'#fff0c1','#725044');ctx.beginPath();ctx.moveTo(cx-16,cy);ctx.lineTo(cx,cy-15);ctx.lineTo(cx+16,cy);ctx.closePath();ctx.fillStyle='#f6814c';ctx.fill();ctx.strokeStyle='#725044';ctx.lineWidth=2;ctx.stroke();rr(cx-3,cy+6,6,12,1,'#865439');rr(cx+5,cy+3,5,6,1,'#fff8da')}}if(c.showPath||c.finished){let pts=m.path;for(let i=1;i<pts.length;i++)line(center(pts[i-1]),center(pts[i]),'#ffffff',7);for(let i=1;i<pts.length;i++)line(center(pts[i-1]),center(pts[i]),'#3c65e4',4,[5,5]);let [gx,gy]=center(m.goal);circle(gx,gy,20,'#fff2aeaa','#3c65e4');rr(gx-13,gy-23,26,13,4,'#3c65e4');txt(c.t.offline?'节点':'家',gx,gy-16.5,'#fff',9)}if(c.hintCell){let [hx,hy]=center(c.hintCell);rr(hx-size/2+4,hy-size/2+4,size-8,size-8,7,null,'#ffb735');circle(hx,hy,5,'#ffb735')}let [sx,sy]=center(m.start);if(!eq(c.pos,m.start))txt('起点',sx,sy,'#6f86bb',10)}
+if(c.t.type==='nav'){for(let [x,y,type] of m.land){let [cx,cy]=center([x,y]);if(type==='tree'){rr(cx-3,cy+4,6,12,2,'#865439');circle(cx,cy-3,10,'#42b984');circle(cx-5,cy+3,6,'#74dda0');circle(cx+6,cy+3,6,'#2c9e77')}else{rr(cx-13,cy-2,26,20,3,'#fff0c1','#725044');ctx.beginPath();ctx.moveTo(cx-16,cy);ctx.lineTo(cx,cy-15);ctx.lineTo(cx+16,cy);ctx.closePath();ctx.fillStyle='#f6814c';ctx.fill();ctx.strokeStyle='#725044';ctx.lineWidth=2;ctx.stroke();rr(cx-3,cy+6,6,12,1,'#865439');rr(cx+5,cy+3,5,6,1,'#fff8da')}}if(c.showPath||c.finished){let pts=m.path;for(let i=1;i<pts.length;i++)line(center(pts[i-1]),center(pts[i]),'#ffffff',7);for(let i=1;i<pts.length;i++)line(center(pts[i-1]),center(pts[i]),'#3c65e4',4,[5,5]);let [gx,gy]=center(m.goal);circle(gx,gy,20,'#fff2aeaa','#3c65e4');rr(gx-13,gy-23,26,13,4,'#3c65e4');txt(c.t.offline?'节点':'家',gx,gy-16.5,'#fff',9)}if(c.hintCell){let [hx,hy]=center(c.hintCell);rr(hx-size/2+4,hy-size/2+4,size-8,size-8,7,null,'#ffb735');circle(hx,hy,5,'#ffb735')}}
 else{let [gx,gy]=center(m.goal);rr(gx-size/2+5,gy-size/2+5,size-10,size-10,8,'#8de3b3','#388a72');rr(gx-15,gy-16,30,32,5,'#2b9d77');line([gx-7,gy],[gx+7,gy],'#f4fff7',2.5);line([gx+2,gy-5],[gx+7,gy],'#f4fff7',2.5);line([gx+2,gy+5],[gx+7,gy],'#f4fff7',2.5);if(!c.battery){let [bx,by]=center(m.battery);rr(bx-11,by-13,22,27,4,'#ffcf42','#795327');rr(bx-4,by-17,8,5,1,'#795327');ctx.beginPath();ctx.moveTo(bx+2,by-9);ctx.lineTo(bx-5,by+1);ctx.lineTo(bx+1,by+1);ctx.lineTo(bx-2,by+10);ctx.lineTo(bx+6,by-2);ctx.lineTo(bx,by-2);ctx.closePath();ctx.fillStyle='#6a482c';ctx.fill()} }
-let [px,py]=center(from?[from[0]+(c.pos[0]-from[0])*motion,from[1]+(c.pos[1]-from[1])*motion]:c.pos);ctx.save();ctx.translate(px,py);ctx.scale(Math.min(1,size/51),Math.min(1,size/51));ctx.translate(-px,-py);circle(px,py+10,17,'#18245135');if(c.t.type==='robot'){rr(px-17,py-15,34,31,8,'#4e9af1','#263b73');rr(px-13,py-10,26,17,5,'#20305d');rr(px-9,py-6,6,8,2,'#8df6d2');rr(px+3,py-6,6,8,2,'#8df6d2');line([px,py-15],[px,py-20],'#263b73',2);circle(px,py-21,3,'#ffce42')}else{circle(px,py,16,'#436be0','#243873');circle(px,py-5,5,'#ffffff');rr(px-8,py+2,16,10,5,'#ffffff');circle(px+12,py-12,4,'#ffce42','#fff')}
+// The goal stays visible even in finalnav; standard route and trail guards above stay intact.
+let [gx,gy]=center(m.goal);line([gx-size*.29,gy+3],[gx-size*.29,gy-size*.32],'#235c50',2);
+ctx.beginPath();ctx.moveTo(gx-size*.29,gy-size*.32);ctx.lineTo(gx+size*.04,gy-size*.21);ctx.lineTo(gx-size*.29,gy-size*.1);ctx.closePath();ctx.fillStyle='#2b9d77';ctx.fill();
+rr(gx-17,gy+size*.18,34,13,4,'#235c50');txt('终点',gx,gy+size*.18+6.5,'#fff',9);
+const now=performance.now(),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,idle=boardIsActive(c)&&boardHasIdle(c),[sx,sy]=center(m.start);
+const spotlight=idle&&eq(c.pos,m.start)&&now<(c.spotlightUntil||0);
+if(spotlight&&!reduced){ctx.beginPath();ctx.rect(0,0,W,H);ctx.moveTo(sx+size*.62,sy);ctx.arc(sx,sy,size*.62,0,Math.PI*2);ctx.fillStyle='#14245180';ctx.fill('evenodd')}
+if(eq(c.pos,m.start)){const pulse=spotlight&&!reduced?Math.sin(now/150)*2:0;circle(sx,sy,size*.39+pulse,'#fff3ae55',spotlight?'#fff6bb':'#638ce3')}
+let [px,py]=center(from?[from[0]+(c.pos[0]-from[0])*motion,from[1]+(c.pos[1]-from[1])*motion]:c.pos);
+if(idle&&!reduced)py-=1.4*(1+Math.sin(now/430));
+ctx.save();ctx.translate(px,py);ctx.scale(Math.min(1,size/51),Math.min(1,size/51));ctx.translate(-px,-py);circle(px,py+10,17,'#18245135');if(c.t.type==='robot'){rr(px-17,py-15,34,31,8,'#4e9af1','#263b73');rr(px-13,py-10,26,17,5,'#20305d');rr(px-9,py-6,6,8,2,'#8df6d2');rr(px+3,py-6,6,8,2,'#8df6d2');line([px,py-15],[px,py-20],'#263b73',2);circle(px,py-21,3,'#ffce42')}else{circle(px,py,16,'#436be0','#243873');circle(px,py-5,5,'#ffffff');rr(px-8,py+2,16,10,5,'#ffffff');circle(px+12,py-12,4,'#ffce42','#fff')}
 ctx.restore();
+if(!eq(c.pos,m.start))txt('起点',sx,sy,'#6f86bb',9);else txt('起点',sx,sy+size*.39,'#34548c',8);
+queueBoardFrame(c);
+// Keep a pointer gesture alive across idle animation frames.
+if(canvas.boardOwner===c)return;canvas.boardOwner=c;
 canvas.onclick=e=>{if(state.current!==c||c.t.type!=='nav'||c.phase!=='walk'||c.locked||c.finished)return;let b=canvas.getBoundingClientRect(),x=(e.clientX-b.left)*W/b.width,y=(e.clientY-b.top)*H/b.height,g=[Math.floor((x-ox)/size),Math.floor((y-oy)/size)],d=DIRS.find(a=>c.pos[0]+a[1]===g[0]&&c.pos[1]+a[2]===g[1]);if(d)navMove(d[0])};
 let touch=null;canvas.onpointerdown=e=>{touch=[e.clientX,e.clientY]};canvas.onpointerup=e=>{if(!touch||state.current!==c||c.t.type!=='nav'||c.phase!=='walk'||c.locked||c.finished)return;let dx=e.clientX-touch[0],dy=e.clientY-touch[1];touch=null;if(Math.max(Math.abs(dx),Math.abs(dy))>22){navMove(Math.abs(dx)>Math.abs(dy)?dx>0?'→':'←':dy>0?'↓':'↑')}};
 }
@@ -123,7 +137,7 @@ function modal(title,text,confirm){let el=document.createElement('div');el.class
 function newGame(){clearActive();applyRound(QuestionBank.create());state.records=[];reportLabel=null;save();startStage(0)}
 /* HUMAN/01 assessment engine v2: deterministic game rubric, not clinical norms. */
 const protocol='H01-P02', weights=[8,10,12,12,13,13,12,20];
-Object.assign(tests[0],{questions:[['17 × 6',102],['38 + 47',85],['84 ÷ 7',12]],limit:30,level:'01 / 入门',scoringNote:'3 道心算，每题只提交一次；答对得分，超时未答计 0。'});
+Object.assign(tests[0],{questions:[['17 × 6',102],['38 + 47',85],['84 ÷ 7',12]],limit:30,level:'01 / 入门',scoringNote:'3 道心算，每题只提交一次；答对得分，未答计 0。10 秒后每秒扣 1 分，最低保留基础分 60%。'});
 Object.assign(tests[1],{seq:[1,5,7,3,8,0],limit:25,flash:650,level:'02 / 基础',scoringNote:'观察 6 格闪烁序列。按原顺序输入，逐位置评分，不反馈正误。'});
 const pathA=[[0,5],[0,4],[1,4],[1,3],[2,3],[2,2],[3,2],[4,2],[4,1],[5,1],[5,0],[6,0]];
 maps.nav={w:7,h:6,start:pathA[0],goal:pathA.at(-1),path:pathA,walls:[[0,0],[0,1],[1,0],[3,0],[3,3],[4,3],[4,5],[5,3],[6,2],[6,4],[2,5]],land:[[1,1,'tree'],[3,4,'house'],[5,5,'tree'],[6,0,'house'],[0,2,'tree']]};
@@ -134,7 +148,7 @@ Object.assign(tests[3],{limit:65,maxQueue:14,level:'04 / 进阶',scoringNote:'�
 const moreParcels=[{c:'#679bbd',shape:'circle',n:12,stamp:true},{c:'#d89a68',shape:'triangle',n:8,stamp:false},{c:'#83aa77',shape:'circle',n:6,stamp:true},{c:'#679bbd',shape:'circle',n:14,stamp:false},{c:'#679bbd',shape:'circle',n:10,stamp:true},{c:'#679bbd',shape:'square',n:12,stamp:true}];
 parcels.push(...moreParcels);
 Object.assign(tests[4],{limit:35,level:'05 / 高阶',scoringNote:'15 个数据包。选择所有符合三条规则的目标，漏选与误选都会扣分。'});
-Object.assign(tests[5],{questions:[['37 × 24',888],['(144 − 36) × 7',756],['864 ÷ 12 + 19 × 7',205]],limit:45,level:'06 / 高阶',scoringNote:'AI 已离线。3 道多步心算，仅有 45 秒。遵循标准运算顺序。'});
+Object.assign(tests[5],{questions:[['37 × 24',888],['(144 − 36) × 7',756],['864 ÷ 12 + 19 × 7',205]],limit:45,level:'06 / 高阶',scoringNote:'AI 已离线。3 道多步心算，仅有 45 秒，遵循标准运算顺序。10 秒后每秒扣 1 分，最低保留基础分 60%。'});
 Object.assign(tests[6],{seq:[8,2,4,0,6,1,7,2],limit:30,flash:480,reverse:true,level:'07 / 专家',scoringNote:'记住 8 格闪烁序列，播放结束后必须按相反顺序输入。每个位置独立计分。'});
 const finalPath=[[0,7],[1,7],[1,6],[2,6],[2,5],[3,5],[3,4],[2,4],[2,3],[3,3],[4,3],[4,2],[5,2],[5,3],[6,3],[6,2],[6,1],[5,1],[5,0],[6,0],[7,0]];
 maps.nav2={w:8,h:8,start:finalPath[0],goal:finalPath.at(-1),path:finalPath,walls:[[0,0],[0,2],[0,4],[2,0],[3,1],[1,3],[4,4],[4,6],[6,5],[7,4],[7,6],[3,7],[5,7],[7,2]],land:[]};
@@ -161,7 +175,7 @@ function markActive(c){try{localStorage.setItem(activeKey,JSON.stringify({i:stat
 function clearActive(){try{localStorage.removeItem(activeKey)}catch{}}
 function save(){try{localStorage.setItem(storageV2,JSON.stringify({records:state.records,deck:roundDeck,reportLabel}))}catch{}}
 function stopClock(){clearInterval(tickTimer);tickTimer=null}
-function clearTimers(){runId++;timers.forEach(clearTimeout);timers=[];stopClock()}
+function clearTimers(){runId++;timers.forEach(clearTimeout);timers=[];stopClock();stopBoardAnimation();if(state.current)state.current.proceedSettlement=null}
 function makeCurrent(t){return {t,phase:'ready',hints:0,auto:false,attempts:0,finished:false,feedback:'',error:false,locked:false,started:false,deadline:0,seconds:t.limit,input:'',answers:[],picks:[],memIndex:0,active:-1,pos:t.map?[...maps[t.map].start]:null,steps:0,trail:[],moves:[],collisions:0,showPath:false,navRemaining:t.preview||5,hintCell:null,queue:[],executed:0,battery:false,running:false,selected:[]}}
 function showLoading(i,done,boot=false){
  clearTimers();state.screen='loading';document.body.dataset.screen='loading';state.current=null;window.scrollTo(0,0);
@@ -173,8 +187,22 @@ function showLoading(i,done,boot=false){
 function startStage(i){showLoading(i,()=>{if(i>=tests.length){renderReport();return}state.i=i;state.screen='play';state.current=makeCurrent(tests[i]);begin();$('.stage')?.classList.add('fadein')})}
 function clock(c){stopClock();c.deadline=Date.now()+c.t.limit*1000;c.seconds=c.t.limit;tickTimer=setInterval(()=>{if(state.current!==c||c.finished){stopClock();return}c.seconds=Math.max(0,Math.ceil((c.deadline-Date.now())/1000));let el=$('.stage-meta #clock');if(el){el.textContent=String(c.seconds).padStart(2,'0')+'s';el.classList.toggle('urgent',c.seconds<=10)}if(c.seconds<=0)finishAssessment('timeout')},100)}
 function remaining(c){return c.deadline?Math.max(0,Math.ceil((c.deadline-Date.now())/1000)):c.t.limit}
-function begin(){let c=state.current;if(c.started||c.finished)return;c.started=true;markActive(c);c.phase='input';if(c.t.type==='memory'){memoryStart();return}if(c.t.type==='nav'){navStart();return}clock(c);renderStage()}
+function begin(){let c=state.current;if(c.started||c.finished)return;c.started=true;markActive(c);c.phase='input';if(c.t.type==='memory'){memoryStart();return}if(c.t.type==='nav'){navStart();return}if(c.t.type==='robot')startBoardSpotlight(c);clock(c);renderStage()}
 let boardFrame=0;
+function stopBoardAnimation(){cancelAnimationFrame(boardFrame);boardFrame=0;if(state.current){state.current.boardTween=null;state.current.spotlightUntil=0}}
+function startBoardSpotlight(c){if(!c.auto)c.spotlightUntil=performance.now()+1200}
+function boardIsActive(c){return state.screen==='play'&&state.current===c&&!c.finished&&c.started&&!!c.t.map}
+function boardHasIdle(c){return !c.auto&&(c.t.type==='robot'||c.phase==='walk')}
+// One rAF owner combines the short movement tween with the character's idle motion.
+function queueBoardFrame(c){
+ if(boardFrame||!boardIsActive(c)||matchMedia('(prefers-reduced-motion: reduce)').matches||(!c.boardTween&&!boardHasIdle(c)))return;
+ boardFrame=requestAnimationFrame(now=>{
+  boardFrame=0;if(!boardIsActive(c))return;
+  const tween=c.boardTween,mix=tween?Math.min(1,(now-tween.started)/125):1;
+  if(mix>=1)c.boardTween=null;
+  drawBoard(c,1-(1-mix)**3,mix<1?tween.from:null);
+ });
+}
 function animateStage(c){
  const previous=c.uiSnapshot;
  c.uiSnapshot={phase:c.phase,input:c.input,answers:c.answers.length,picks:c.picks.length,queue:c.queue.length,selected:c.selected.join(','),pos:c.pos?[...c.pos]:null,collisions:c.collisions};
@@ -189,43 +217,54 @@ function animateStage(c){
   else if(previous.selected!==c.selected.join(','))target=$('.parcel.selected .check');
   if(target)target.animate([{transform:'scale(.94)',opacity:.6},{transform:'scale(1)',opacity:1}],{duration:180,easing:'ease-out'});
   if(c.pos&&previous.pos&&!eq(c.pos,previous.pos)){
-   cancelAnimationFrame(boardFrame);const started=performance.now();
-   const frame=now=>{if(state.current!==c||c.finished)return;const mix=Math.min(1,(now-started)/125);drawBoard(c,1-(1-mix)**3,previous.pos);if(mix<1)boardFrame=requestAnimationFrame(frame)};
-   drawBoard(c,0,previous.pos);boardFrame=requestAnimationFrame(frame);
+   c.boardTween={started:performance.now(),from:previous.pos};
+   drawBoard(c,0,previous.pos);
   }else if(c.collisions>previous.collisions)$('.boardwrap')?.animate([{transform:'translateX(-3px)'},{transform:'translateX(3px)'},{transform:'translateX(0)'}],{duration:140});
  }
 }
 function expectedMemory(c){return c.t.reverse?[...c.t.seq].reverse():c.t.seq}
 function editDistance(a,b){let prev=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){let cur=[i];for(let j=1;j<=b.length;j++)cur[j]=Math.min(cur[j-1]+1,prev[j]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));prev=cur}return prev[b.length]}
-function evaluate(c){let t=c.t,raw=0,detail='',exact=false,correct=0,total=0;switch(t.type){case'math':{total=t.questions.length;correct=t.questions.filter((q,i)=>c.answers[i]===String(q[1])).length;raw=100*correct/total;exact=correct===total;detail=`答对 ${correct}/${total} 题 · 每题等权`;break}case'memory':{let s=expectedMemory(c);total=s.length;correct=s.filter((v,i)=>c.picks[i]===v).length;raw=100*correct/total;exact=correct===total;detail=`正确位置 ${correct}/${total} · 错位 ${c.picks.length-correct} · 未答 ${total-c.picks.length}`;break}case'nav':{let m=maps[t.map],route=dirsFromPath(m.path),dist=editDistance(route,c.moves),arrived=eq(c.pos,m.goal),routePoints=70*Math.max(0,1-dist/route.length);total=route.length;correct=Math.max(0,total-dist);raw=routePoints+(arrived?30:0)-5*c.collisions;exact=arrived&&dist===0&&c.collisions===0;detail=`路线编辑误差 ${dist} · 行走 ${c.moves.length}/${total} 步 · 碰撞 ${c.collisions} · ${arrived?'抵达终点':'未抵达终点'}`;break}case'robot':{let m=maps[t.map],opt=pathfind(m,m.start,m.battery).length+pathfind(m,m.battery,m.goal).length,arrived=eq(c.pos,m.goal),success=arrived&&c.battery&&c.collisions===0;let efficiency=success?30*Math.min(1,opt/Math.max(1,c.queue.length)):0;raw=(c.battery?35:0)+(arrived?35:0)+efficiency-10*c.collisions;exact=success&&c.queue.length===opt;detail=`电池 ${c.battery?'已取':'未取'} · 出口 ${arrived?'已到':'未到'} · ${c.queue.length} 条指令（最优 ${opt}） · 碰撞 ${c.collisions}`;break}case'sort':{let good=targetSort(),tp=c.selected.filter(i=>good.includes(i)).length,fp=c.selected.length-tp;total=good.length;correct=tp;raw=100*Math.max(0,tp-fp)/total;exact=tp===total&&fp===0;detail=`命中 ${tp}/${total} · 漏选 ${total-tp} · 误选 ${fp}`;break}}
-return {raw:clampScore(raw),detail,exact,correct,total}}
+function mathSpeedScore(correct,total,elapsedSeconds){
+ const base=total>0?100*correct/total:0;
+ const speedPenalty=Math.min(base*.4,Math.max(0,elapsedSeconds-10));
+ return {base,speedPenalty,raw:clampScore(base-speedPenalty)};
+}
+function mathSpeedDetail(elapsed,speedPenalty){return `用时 ${elapsed}s${speedPenalty>0?' · 速度 −'+Number(speedPenalty.toFixed(2)):''}`}
+function evaluate(c){let t=c.t,raw=0,detail='',exact=false,correct=0,total=0,speedPenalty=0;switch(t.type){case'math':{total=t.questions.length;correct=t.questions.filter((q,i)=>c.answers[i]===String(q[1])).length;const elapsed=c.submitElapsed??(c.deadline?t.limit-remaining(c):0),speed=mathSpeedScore(correct,total,c.auto?0:elapsed);raw=speed.raw;speedPenalty=speed.speedPenalty;exact=correct===total;detail=`答对 ${correct}/${total} 题 · 每题等权${c.auto?'':' · '+mathSpeedDetail(elapsed,speedPenalty)}`;break}case'memory':{let s=expectedMemory(c);total=s.length;correct=s.filter((v,i)=>c.picks[i]===v).length;raw=100*correct/total;exact=correct===total;detail=`正确位置 ${correct}/${total} · 错位 ${c.picks.length-correct} · 未答 ${total-c.picks.length}`;break}case'nav':{let m=maps[t.map],route=dirsFromPath(m.path),dist=editDistance(route,c.moves),arrived=eq(c.pos,m.goal),routePoints=70*Math.max(0,1-dist/route.length);total=route.length;correct=Math.max(0,total-dist);raw=routePoints+(arrived?30:0)-5*c.collisions;exact=arrived&&dist===0&&c.collisions===0;detail=`路线编辑误差 ${dist} · 行走 ${c.moves.length}/${total} 步 · 碰撞 ${c.collisions} · ${arrived?'抵达终点':'未抵达终点'}`;break}case'robot':{let m=maps[t.map],opt=pathfind(m,m.start,m.battery).length+pathfind(m,m.battery,m.goal).length,arrived=eq(c.pos,m.goal),success=arrived&&c.battery&&c.collisions===0;let efficiency=success?30*Math.min(1,opt/Math.max(1,c.queue.length)):0;raw=(c.battery?35:0)+(arrived?35:0)+efficiency-10*c.collisions;exact=success&&c.queue.length===opt;detail=`电池 ${c.battery?'已取':'未取'} · 出口 ${arrived?'已到':'未到'} · ${c.queue.length} 条指令（最优 ${opt}） · 碰撞 ${c.collisions}`;break}case'sort':{let good=targetSort(),tp=c.selected.filter(i=>good.includes(i)).length,fp=c.selected.length-tp;total=good.length;correct=tp;raw=100*Math.max(0,tp-fp)/total;exact=tp===total&&fp===0;detail=`命中 ${tp}/${total} · 漏选 ${total-tp} · 误选 ${fp}`;break}}
+return {raw:clampScore(raw),detail,exact,correct,total,...(t.type==='math'?{speedPenalty}:{})}}
 // A saved result pauses here before the existing loading/next-stage path.
 function showSettlement(c,r,next){
- cancelAnimationFrame(boardFrame);state.screen='settlement';document.body.dataset.screen='settlement';window.scrollTo(0,0);
+ stopBoardAnimation();state.screen='settlement';document.body.dataset.screen='settlement';window.scrollTo(0,0);
  const auto=r.mode==='auto',tag=auto?'这题先外包':r.score===100?'你就是AI吧？':r.score>=80?'脑子还在线':r.score>=60?'人类续航中':r.score>=40?'脑子缓冲中':'大脑省电中';
- app.innerHTML=`<section class="settlement-screen" role="status" aria-live="polite" aria-atomic="true"><div class="settlement-band" aria-hidden="true"></div><div class="settlement-content"><div class="settlement-kicker">HUMAN / 01 · ${String(state.i+1).padStart(2,'0')} / 08</div><h1>小关结算</h1><p class="settlement-name">${c.t.name}</p><div class="settlement-score ${auto?'is-auto':''}">${auto?'AI 接管':r.score}</div>${auto?'':'<div class="settlement-unit">独立评估分 / 100</div>'}<p class="settlement-tag">${tag}</p><div class="settlement-next">${next>=tests.length?'正在整理你的报告':'下一关，继续有希望'} <span aria-hidden="true">→</span></div></div></section>`;
- later(()=>startStage(next),matchMedia('(prefers-reduced-motion: reduce)').matches?1600:2000);
+ app.innerHTML=`<section class="settlement-screen" role="status" aria-live="polite" aria-atomic="true"><div class="settlement-band" aria-hidden="true"></div><div class="settlement-content"><div class="settlement-kicker">HUMAN / 01 · ${String(state.i+1).padStart(2,'0')} / 08</div><h1>小关结算</h1><p class="settlement-name">${c.t.name}</p><div class="settlement-score ${auto?'is-auto':''}">${auto?'AI 接管':r.score}</div>${auto?'':'<div class="settlement-unit">独立评估分 / 100</div>'}${!auto&&c.t.type==='math'?`<p class="settlement-speed">${mathSpeedDetail(r.seconds,r.speedPenalty)}</p>`:''}<p class="settlement-tag">${tag}</p><div class="settlement-next">点击继续${next>=tests.length?' · 查看报告':''} <span aria-hidden="true">→</span></div></div></section>`;
+ const shownAt=Date.now(),id=runId;let proceeded=false,timer;
+ const proceed=()=>{
+  if(proceeded||id!==runId||state.screen!=='settlement'||state.current!==c||Date.now()-shownAt<500)return;
+  proceeded=true;clearTimeout(timer);timers=timers.filter(t=>t!==timer);c.proceedSettlement=null;startStage(next);
+ };
+ c.proceedSettlement=proceed;
+ timer=later(proceed,matchMedia('(prefers-reduced-motion: reduce)').matches?2000:3000);
 }
 function finishAssessment(reason='submit',auto=false){
  let c=state.current;if(!c||c.finished)return;
  if(reason==='submit'&&!auto&&!c.auto&&c.deadline&&Date.now()>=c.deadline)reason='timeout';
  if(reason==='timeout'&&!auto&&!c.auto){autoDo('timeout');return}
  let elapsed=c.submitElapsed??(c.deadline?c.t.limit-remaining(c):0);
- clearTimers();c.auto=auto||c.auto;c.finished=true;c.locked=false;c.running=false;c.active=-1;c.seconds=c.deadline?remaining(c):c.seconds;
+ clearTimers();c.submitElapsed=elapsed;c.auto=auto||c.auto;c.finished=true;c.locked=false;c.running=false;c.active=-1;c.seconds=c.deadline?remaining(c):c.seconds;
  let e=reason==='abandoned'?{raw:0,detail:'测试中断 · 本项未完成',exact:false}:evaluate(c),mode=c.auto?'auto':c.hints?'hint':'self';
  let score=mode==='auto'?0:mode==='hint'?Math.round(e.raw*.7):e.raw;
- let r={id:c.t.id,mode,raw:e.raw,score,detail:e.detail,exact:e.exact&&reason!=='timeout',reason,seconds:elapsed,hints:c.hints,review:reason==='abandoned'?null:{answers:[...c.answers],picks:[...c.picks],moves:[...c.moves]}};
+ let r={id:c.t.id,mode,raw:e.raw,score,detail:e.detail,exact:e.exact&&reason!=='timeout',reason,seconds:elapsed,hints:c.hints,...(c.t.type==='math'?{speedPenalty:e.speedPenalty||0}:{}),review:reason==='abandoned'?null:{answers:[...c.answers],picks:[...c.picks],moves:[...c.moves]}};
  state.records[state.i]=r;save();clearActive();document.querySelectorAll('.modal-bg').forEach(el=>el.remove());
  if(reason!=='abandoned')showSettlement(c,r,state.i+1);
 }
 function complete(auto=false){finishAssessment('submit',auto)}
 function progress(){return `<div class="progressline"><div class="number">${String(state.i+1).padStart(2,'0')} / 08</div><div class="segments">${tests.map((t,i)=>`<i class="seg ${i<state.i?'done':i===state.i?'current':''} ${t.offline?'offline':''}"></i>`).join('')}</div></div>`}
 function examiner(c){let t=c.t,r=state.records[state.i],msg=c.finished?(r.mode==='auto'?'任务已接管。此项未验证个人能力。':r.raw===100?'本项测试满分。':r.raw>=60?'已记录部分成绩。请查看失分细项。':'本项测试已记录。错误与未答均计入成绩。'):c.feedback||t.say;return `<div class="examiner"><div class="avatar ${t.offline?'off':''}">${robotSVG(t.offline?'off':'normal')}</div><div class="say"><div class="sayhead"><b>${t.offline?'LOCAL / SYSTEM':'HUMAN-01'}</b><span class="status" style="${t.offline?'color:#ab764c':''}">${t.offline?'● OFFLINE':'● ONLINE'}</span></div><p>${msg}</p></div></div>`}
-function rubric(t){return {math:'正确题数 ÷ 总题数 × 100；未答为 0。',memory:'正确位置数 ÷ 序列长度 × 100；错位和未答均为 0。',nav:'路线 70 分（按编辑误差比例扣分）＋抵达 30 分；每次碰撞扣 5 分。',robot:'取电池 35 分、抵达 35 分；成功且无碰撞时指令效率最多 30 分；碰撞扣 10 分。',sort:'(正确选中数 − 误选数) ÷ 目标总数 × 100，最低 0 分。'}[t.type]}
+function rubric(t){return {math:'基础分 = 正确题数 ÷ 总题数 × 100；未答或答错为 0。前 10 秒不扣分，之后每秒扣 1 分，最多扣基础分 40%，最低保留 60%；最后四舍五入。',memory:'正确位置数 ÷ 序列长度 × 100；错位和未答均为 0。',nav:'路线 70 分（按编辑误差比例扣分）＋抵达 30 分；每次碰撞扣 5 分。',robot:'取电池 35 分、抵达 35 分；成功且无碰撞时指令效率最多 30 分；碰撞扣 10 分。',sort:'(正确选中数 − 误选数) ÷ 目标总数 × 100，最低 0 分。'}[t.type]}
 function renderStage(first=false){
  let c=state.current,t=c.t,preview=c.phase==='show'||c.phase==='preview';
  const time=c.auto?'接管中':c.phase==='preview'?'路线 · '+c.navRemaining+'s':preview?'先观察':c.running?'执行中':String(c.seconds).padStart(2,'0')+'s';
- app.innerHTML=headerMarkup()+progress()+'<div class="play-area">'+(c.feedback?examiner(c):'')+`<section class="stage ${first?'fadein':''} ${c.auto?'ai-demo':''}" aria-busy="${c.auto}"><div class="stage-head"><div><div class="eyebrow">${t.en}</div><h1>${state.i+1}. ${t.name}</h1></div><div class="stage-meta"><b id="clock" aria-label="${c.phase==='preview'?'路线预览倒计时':'作答状态与剩余时间'}" class="${!c.auto&&!preview&&c.seconds<=10?'urgent':''}">${time}</b></div></div><p class="subtitle task-instruction ${t.type==='robot'?'is-compact':''}">${t.sub}</p>${renderPlay(c)}</section>${renderTools(c)}</div>`;
+ app.innerHTML='<div class="play-area">'+headerMarkup()+progress()+(c.feedback?examiner(c):'')+`<section class="stage ${first?'fadein':''} ${c.auto?'ai-demo':''}" aria-busy="${c.auto}"><div class="stage-head"><div><div class="eyebrow">${t.en}</div><h1>${state.i+1}. ${t.name}</h1></div><div class="stage-meta"><b id="clock" aria-label="${c.phase==='preview'?'路线预览倒计时':'作答状态与剩余时间'}" class="${!c.auto&&!preview&&c.seconds<=10?'urgent':''}">${time}</b></div></div><p class="subtitle task-instruction ${t.type==='robot'?'is-compact':''}">${t.sub}</p>${renderPlay(c)}</section>${renderTools(c)}</div>`;
  if(t.type==='nav'||t.type==='robot')drawBoard(c);animateStage(c);paintAIDemo(c);
 }
 function reviewMarkup(c){let t=c.t;if(t.type==='math')return `<div class="review">${t.questions.map((q,i)=>`<div><span>${q[0]} = ${q[1]}</span><b class="${c.answers[i]===String(q[1])?'':'wrongtext'}">${c.answers[i]===String(q[1])?'✓':c.answers[i]||'未答'}</b></div>`).join('')}</div>`;if(t.type==='memory')return `<div class="review"><small>标准 / 你的答案（错位标红）</small><div class="sequence-review">${expectedMemory(c).map((v,i)=>`<span class="${c.picks[i]===v?'':'wrongtext'}">${v+1}<small>${c.picks[i]===undefined?'–':c.picks[i]+1}</small></span>`).join('')}</div></div>`;if(t.type==='nav')return `<div class="review"><small>标准路线</small><p class="route-review">${dirsFromPath(maps[t.map].path).join(' ')}</p><small>实际路线</small><p class="route-review">${c.moves.join(' ')||'未行走'}</p></div>`;return ''}
@@ -238,7 +277,7 @@ function mathKey(v){let c=state.current;if(!c.started||c.finished||c.locked)retu
 function memoryStart(){let c=state.current,t=c.t;c.phase='show';c.memIndex=0;c.active=-1;renderStage();t.seq.forEach((v,i)=>{later(()=>{c.active=v;c.memIndex=i+1;tone();renderStage()},350+i*t.flash);later(()=>{c.active=-1;renderStage()},350+i*t.flash+Math.round(t.flash*.65))});later(()=>{c.phase='input';c.active=-1;clock(c);renderStage()},350+t.seq.length*t.flash)}
 function memPick(i){let c=state.current;if(c.finished||c.locked||c.phase!=='input'||c.picks.length>=c.t.seq.length)return;c.picks.push(i);tone();renderStage()}
 function navStart(){let c=state.current;c.phase='preview';c.showPath=true;c.navRemaining=c.t.preview;renderStage();for(let i=1;i<=c.t.preview;i++)later(()=>{c.navRemaining=c.t.preview-i;if(i===c.t.preview)navGo();else renderStage()},1000*i)}
-function navGo(){let c=state.current;c.phase='walk';c.showPath=false;clock(c);renderStage()}
+function navGo(){let c=state.current;c.phase='walk';c.showPath=false;startBoardSpotlight(c);clock(c);renderStage()}
 function navMove(v){let c=state.current;if(c.finished||c.locked||c.phase!=='walk')return;let m=maps[c.t.map],p=step(m,c.pos,v);if(!p){c.collisions++;tone(false);renderStage();return}c.trail.push(c.pos);c.pos=p;c.moves.push(v);c.steps=c.moves.length;c.hintCell=null;c.feedback='';tone();if(eq(c.pos,m.goal)){finishAssessment();return}renderStage()}
 function robotAdd(v){let c=state.current;if(!c.started||c.finished||c.locked||c.queue.length>=c.t.maxQueue)return;c.queue.push(v);tone();renderStage()}
 function robotRun(auto=false){let c=state.current,m=maps.robot;if(c.finished||c.running||(!c.queue.length&&!auto))return;if(c.deadline&&Date.now()>=c.deadline&&!auto){finishAssessment('timeout');return}c.running=true;c.locked=true;if(auto)c.queue=[...pathfind(m,m.start,m.battery),...pathfind(m,m.battery,m.goal)];c.submitElapsed=c.deadline?c.t.limit-remaining(c):0;c.seconds=remaining(c);stopClock();c.deadline=0;renderStage();let idx=0;function tick(){if(idx>=c.queue.length){later(()=>finishAssessment('submit',auto),750);return}let p=step(m,c.pos,c.queue[idx]);if(!p){c.collisions++;c.feedback='撞墙了，程序中止。';renderStage();later(()=>finishAssessment('collision',auto),900);return}c.trail.push(c.pos);c.pos=p;c.battery=c.battery||eq(p,m.battery);c.executed=++idx;tone();renderStage();later(tick,260)}later(tick,200)}
@@ -280,7 +319,9 @@ function reportPNG(){
  txt('游戏内评分 · 非 IQ 或真实人群排名',60,1070,23,'#e0e7ff');txt('当 AI 替你完成一切，你还会什么？',60,1114,26,'#ffffff');
  let a=document.createElement('a');a.download='HUMAN-01-report.png';a.href=cv.toDataURL('image/png');a.click();
 }
-app.addEventListener('click',e=>{let b=e.target.closest('button[data-action]');if(!b||b.disabled)return;let a=b.dataset.action,c=state.current,v=b.dataset.value;switch(a){case'sound':state.sound=!state.sound;b.innerHTML=state.sound?ICON.sound:ICON.mute;b.setAttribute('aria-label',state.sound?'关闭声音':'开启声音');if(state.sound)tone();break;case'home':if(c&&c.started&&!c.finished)modal('中断当前测试？','本项将记为 0 分，已完成的成绩保留。',()=>{if(state.current!==c||c.finished)return;finishAssessment('abandoned');renderHome()});else renderHome();break;case'new':if(state.records.length)modal('重新开始测试？','当前测试记录将被清除。',newGame);else newGame();break;case'resume':startStage(state.records.length);break;case'math':mathKey(v);break;case'mem':memPick(+v);break;case'memundo':c.picks.pop();renderStage();break;case'memsubmit':finishAssessment();break;case'navdir':navMove(v);break;case'robotdir':robotAdd(v);break;case'robotundo':c.queue.pop();renderStage();break;case'robotclear':c.queue=[];renderStage();break;case'robotrun':robotRun();break;case'sort':c.selected=c.selected.includes(+v)?c.selected.filter(x=>x!==+v):[...c.selected,+v];c.feedback='';tone();renderStage();break;case'sortsubmit':sortSubmit();break;case'hint':hint();break;case'auto':autoDo();break;case'share':share();break;case'reportpng':reportPNG();break}});
+function settlementInput(e){if(state.screen==='settlement'&&e.target.closest('.settlement-screen'))state.current?.proceedSettlement?.()}
+app.addEventListener('pointerup',settlementInput);
+app.addEventListener('click',e=>{if(state.screen==='settlement'){settlementInput(e);return}let b=e.target.closest('button[data-action]');if(!b||b.disabled)return;let a=b.dataset.action,c=state.current,v=b.dataset.value;switch(a){case'sound':state.sound=!state.sound;b.innerHTML=state.sound?ICON.sound:ICON.mute;b.setAttribute('aria-label',state.sound?'关闭声音':'开启声音');if(state.sound)tone();break;case'home':if(c&&c.started&&!c.finished)modal('中断当前测试？','本项将记为 0 分，已完成的成绩保留。',()=>{if(state.current!==c||c.finished)return;finishAssessment('abandoned');renderHome()});else renderHome();break;case'new':if(state.records.length)modal('重新开始测试？','当前测试记录将被清除。',newGame);else newGame();break;case'resume':startStage(state.records.length);break;case'math':mathKey(v);break;case'mem':memPick(+v);break;case'memundo':c.picks.pop();renderStage();break;case'memsubmit':finishAssessment();break;case'navdir':navMove(v);break;case'robotdir':robotAdd(v);break;case'robotundo':c.queue.pop();renderStage();break;case'robotclear':c.queue=[];renderStage();break;case'robotrun':robotRun();break;case'sort':c.selected=c.selected.includes(+v)?c.selected.filter(x=>x!==+v):[...c.selected,+v];c.feedback='';tone();renderStage();break;case'sortsubmit':sortSubmit();break;case'hint':hint();break;case'auto':autoDo();break;case'share':share();break;case'reportpng':reportPNG();break}});
 document.addEventListener('keydown',e=>{let c=state.current;if(state.screen!=='play'||!c||!c.started||c.finished||c.locked||$('.modal-bg'))return;if(c.t.type==='math'){if(/^\d$/.test(e.key))mathKey(e.key);else if(e.key==='Backspace')mathKey('erase');else if(e.key==='Enter')mathKey('submit')}else if(['nav','robot'].includes(c.t.type)){let v={ArrowUp:'↑',ArrowDown:'↓',ArrowLeft:'←',ArrowRight:'→'}[e.key];if(v){e.preventDefault();if(c.t.type==='nav')navMove(v);else robotAdd(v)}}});
 window.addEventListener('resize',()=>{let c=state.current;if(state.screen==='play'&&c?.t.map)drawBoard(c)});
 state.records=load();showLoading(0,renderHome,true);

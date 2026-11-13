@@ -156,6 +156,7 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
 .settlement-score{font:950 clamp(96px,28vw,144px)/1 var(--mono);letter-spacing:-7px;margin:26px 0 8px}
 .settlement-score.is-auto{font:900 clamp(38px,12vw,58px)/1.2 system-ui;letter-spacing:-1px;margin:40px 0 20px}
 .settlement-unit{font-size:12px;font-weight:650}
+.settlement-speed{font-size:12px;font-weight:650;margin:12px 0 0}
 .settlement-tag{font-size:clamp(24px,7vw,32px);font-weight:900;margin:24px 0 40px;transform:rotate(-3deg)}
 .settlement-next{font-size:12px;font-weight:650;letter-spacing:1px}
 .settlement-next span{padding-left:8px}
@@ -186,11 +187,10 @@ button:focus-visible{outline:3px solid #fff1a8;outline-offset:3px}
   #app:before{background:none}
 }
 
-/* Portrait play: reserve space for the board and comfortable tap targets. */
+/* Portrait play: HUD, stage and tools center as one column. */
 @media(max-width:600px){
- /* Auto margins share spare height; a tall play area keeps its natural height and scrolls. */
+ /* Spare height splits above and below the column; a tall column keeps its height and scrolls. */
  body[data-screen="play"] #app{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
- body[data-screen="play"] #app>.top,body[data-screen="play"] #app>.progressline{flex-shrink:0}
  body[data-screen="play"] .play-area{flex-shrink:0;margin-block:auto;padding-block:12px}
  body[data-screen="play"] .top{height:52px;margin-bottom:6px}
  body[data-screen="play"] .progressline{margin-bottom:8px!important}
